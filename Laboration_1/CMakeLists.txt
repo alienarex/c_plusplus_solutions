@@ -1,0 +1,1 @@
+add_executable(${PROJECT_NAME}-Laboration_1 src/main.cpp)
