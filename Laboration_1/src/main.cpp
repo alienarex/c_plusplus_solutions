@@ -80,8 +80,11 @@ int main() {
                 // of 2 as 2 digits are dropped
                 divisor = divisor / 100;
                 tempNumber = tempNumber / 10;
-
             } while (tempNumber > 0);
+            if (reversedNumber != inputNumber) {
+                isOk = false;
+                cout << "The number " << inputNumber << " isn't a palindrome to " << reversedNumber << endl;
+            }
 
         } while (!isOk);
 
