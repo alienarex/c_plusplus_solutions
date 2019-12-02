@@ -28,31 +28,41 @@ int main() {
     // std::cout << "Laboration 1!" << std::endl;
     int inputNumber;
     int reversedNumber = 0, tempNumber;
-    bool isOk;
-    /// Loop 1: Ask for input until it's correct
+    char toContinue;
+    bool isOk = true;
     do {
-        cout << "Insert a 5 digit number" << endl;
-        cin >> inputNumber;
 
-        // Input control.
-        // Source: https://elearn20.miun.se/moodle/pluginfile.php/711615/mod_folder/content/0/Laborationer/Laboration%201.pdf?forcedownload=1
-        if (cin.fail()) { // the input couldn't be cast as integer value
+        /// Loop 1: Ask for input until it's correct
+        do {
+            cout << "Insert a 5 digit number" << endl;
+            cin >> inputNumber;
 
-            // clear failure state
-            cin.clear();
-            // discard remaining unprocessed characters in the input stream
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            isOk = false;
-//            cout << "No alphabetic characters allowed";
+            // Input control.
+            // Source: https://elearn20.miun.se/moodle/pluginfile.php/711615/mod_folder/content/0/Laborationer/Laboration%201.pdf?forcedownload=1
+            if (cin.fail()) { // the input couldn't be cast as integer value
 
-        } else if (!isCorrectLength(inputNumber)) {
-            isOk = false;
+                // clear failure state
+                cin.clear();
+                // discard remaining unprocessed characters in the input stream
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                isOk = false;
+                cout << "No alphabetic characters allowed. Try again with only digits! " << endl;
+            } else if (!isCorrectLength(inputNumber)) {
+                isOk = false;
 
-//            cout << "Not correct length.";
+                cout << "Not correct length. Try again!" << endl;
+            }
 
-        }
+        } while (!isOk);
+        cout << "Run again? (Y/N): " << endl;
+        // Allowed input keys --loop
+        do {
+            cin >> toContinue;
+            toContinue = toupper(toContinue); // make all letter same case.
+        } while (!(toContinue == 'Y' || toContinue == 'N')); //only 'Y','y','n','N' is allowed
 
-    } while (!isOk);
+
+    } while (toContinue = 'Y');
 
 
 //        // declares after inputcontrol
