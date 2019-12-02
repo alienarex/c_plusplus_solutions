@@ -52,8 +52,39 @@ int main() {
 
                 cout << "Not correct length. Try again!" << endl;
             }
+            // declares after inputcontrol
+            int divisor = 1, leadingNumber = 0, trailingNumber = 0;
+
+
+            /* Identify the divider to be able to split the number into digits by dividing input number with
+             * the value of divisior, that increases by multiplying itself in each iteration.
+             * Simplified: Creates a "decimal number" and split
+             * Source: https://www.geeksforgeeks.org/check-number-palindrome-not-without-using-extra-space/
+             */
+            while (inputNumber / divisor >= 10) {
+
+                divisor *= 10;
+            }
+
+            tempNumber = inputNumber;
+            do {
+//
+//                leadingNumber = tempNumber / divisor; // picks out first digit
+                trailingNumber = tempNumber % 10; // picks out last digit
+                reversedNumber = reversedNumber * 10 + trailingNumber; // build reverted number
+
+                // Removing the controlled digits (leading and trailing) the number
+//                tempNumber = (tempNumber % divisor) / 10;
+
+                // Reducing divisor by a factor
+                // of 2 as 2 digits are dropped
+                divisor = divisor / 100;
+                tempNumber = tempNumber / 10;
+
+            } while (tempNumber > 0);
 
         } while (!isOk);
+
         cout << "Run again? (Y/N): " << endl;
         // Allowed input keys --loop
         do {
@@ -65,38 +96,6 @@ int main() {
     } while (toContinue = 'Y');
 
 
-//        // declares after inputcontrol
-    int divisor = 1, leadingNumber = 0, trailingNumber = 0;
-//
-//
-//        /* Identify the divider to be able to split the number into digits by dividing input number with
-//         * the value of divisior, that increases by multiplying itself in each iteration.
-//         * Simplified: Creates a "decimal number" and split
-//         * Source: https://www.geeksforgeeks.org/check-number-palindrome-not-without-using-extra-space/
-//         */
-    while (inputNumber / divisor >= 10) {
-
-        divisor *= 10;
-    }
-    tempNumber = inputNumber;
-    int countdigits = 5;
-    do {
-//
-        leadingNumber = inputNumber / divisor; // picks out first digit
-        trailingNumber = tempNumber % 10; // picks out last digit
-        reversedNumber = reversedNumber * 10 + trailingNumber; // build reverted number
-        tempNumber = tempNumber / 10; // remove digit from controlnumber
-        if (inputNumber != trailingNumber) {
-            isOk = false;//for breaking the loop
-        }
-        // Removing the controlled digits (leading and trailing) the number
-        inputNumber = (inputNumber % divisor) / 10;
-        countdigits--;
-        // Reducing divisor by a factor
-        // of 2 as 2 digits are dropped
-        divisor = divisor / 100;
-
-    } while (countdigits != 0);
 
 //
 //
