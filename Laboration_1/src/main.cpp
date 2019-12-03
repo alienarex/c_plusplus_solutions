@@ -25,16 +25,19 @@ bool isCorrectLength(int inputNumber) {
 
 int main() {
 
-    // std::cout << "Laboration 1!" << std::endl;
-    int inputNumber;
-    int reversedNumber = 0, tempNumber;
+    int inputNumber, reversedNumber = 0, nextDigit = 0, tempNumber;
     char toContinue;
     bool isOk = true;
-    do {
+
+    do {// As long as the user chooses 'Y' the program continues.
 
         /// Loop 1: Ask for input until it's correct
         do {
-            cout << "Insert a 5 digit number" << endl;
+            cin.clear();
+            isOk = true;
+            reversedNumber = 0; // reset value for next input
+
+            cout << "Insert a 5 digit number:" << endl;
             cin >> inputNumber;
 
             // Input control.
@@ -45,66 +48,57 @@ int main() {
                 cin.clear();
                 // discard remaining unprocessed characters in the input stream
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                isOk = false;
-                cout << "No alphabetic characters allowed. Try again with only digits! " << endl;
+
+                isOk = false; // Continue the loop to insert a new number
+
+                cout << "No alphabetic characters allowed. Try again with only digits! "
+                     << endl; // Error message. Helps user to correct it's input
+
             } else if (!isCorrectLength(inputNumber)) {
-                isOk = false;
 
-                cout << "Not correct length. Try again!" << endl;
+                // clear failure state
+                cin.clear();
+
+                isOk = false; // Continue the loop to insert a new number
+
+                cout << "Not correct length. Try again!" << endl; // Error message. Helps user to correct it's input
+
+            } else {
+
+                tempNumber = inputNumber; // uses a temp variable for the calculations and manipulation of the number.
+                do {
+
+                    nextDigit = tempNumber % 10; // picks out last digit
+                    reversedNumber = reversedNumber * 10 + nextDigit; // build reverted number
+
+                    // Removes the last digit in the number
+                    tempNumber = tempNumber / 10;
+
+                } while (tempNumber > 0);
+
+                if (reversedNumber != inputNumber) {
+
+                    cin.clear(); // Clear the input stream.
+                    isOk = false; // Continue the loop to insert a new number
+                    cout << "The number " << inputNumber << " isn't a palindrome to " << reversedNumber << endl;
+                }
             }
-            // declares after inputcontrol
-            int divisor = 1, leadingNumber = 0, trailingNumber = 0;
-
-
-            /* Identify the divider to be able to split the number into digits by dividing input number with
-             * the value of divisior, that increases by multiplying itself in each iteration.
-             * Simplified: Creates a "decimal number" and split
-             * Source: https://www.geeksforgeeks.org/check-number-palindrome-not-without-using-extra-space/
-             */
-            while (inputNumber / divisor >= 10) {
-
-                divisor *= 10;
-            }
-
-            tempNumber = inputNumber;
-            do {
-//
-//                leadingNumber = tempNumber / divisor; // picks out first digit
-                trailingNumber = tempNumber % 10; // picks out last digit
-                reversedNumber = reversedNumber * 10 + trailingNumber; // build reverted number
-
-                // Removing the controlled digits (leading and trailing) the number
-//                tempNumber = (tempNumber % divisor) / 10;
-
-                // Reducing divisor by a factor
-                // of 2 as 2 digits are dropped
-                divisor = divisor / 100;
-                tempNumber = tempNumber / 10;
-            } while (tempNumber > 0);
-            if (reversedNumber != inputNumber) {
-                isOk = false;
-                cout << "The number " << inputNumber << " isn't a palindrome to " << reversedNumber << endl;
-            }
-
         } while (!isOk);
 
-        cout << "Run again? (Y/N): " << endl;
+        cout << "The number: " << inputNumber << " is a palindrome!" << endl;
+
         // Allowed input keys --loop
         do {
+            cout << "Run again? (Y/N): " << endl;
             cin >> toContinue;
-            toContinue = toupper(toContinue); // make all letter same case.
+            toContinue = toupper(toContinue); // make letter upper case.
+
+            if (toContinue != 'Y') {//
+                cout << "You can only use the 'Y' and 'N' key to reply "
+                     << endl; // Error messages to help user correct it's input.
+            }
+
         } while (!(toContinue == 'Y' || toContinue == 'N')); //only 'Y','y','n','N' is allowed
 
-
     } while (toContinue = 'Y');
-
-
-
-//
-//
-//        }
-//        cout << "The number: " << inputNumber << "is indeed a palindrome" << endl;
-
-    return 0;
-
 }
