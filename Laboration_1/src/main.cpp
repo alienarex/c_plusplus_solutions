@@ -1,26 +1,21 @@
 #include <iostream>
-# include <limits>
+#include <limits>
 
 using namespace std;
 
 /// Validate the length of the number to its set value
 /// Parameter: inputNumber
-bool isCorrectLength(int inputNumber) {
-    // Source: https://stackoverflow.com/a/22649020
+bool countDigits(int inputNumber) {
 
     int numberOfDigits = 0;
     int allowedDigits = 5;
 
-    // Loops until allowedDigits is 0;
-
-    do {
+    while (inputNumber > 0) {
+        inputNumber /= 10;
         numberOfDigits++;
-        inputNumber /= allowedDigits;
-    } while (inputNumber);
+    }
 
-    // The do-while loop loops throught the numberOfDigits one time before evaluation and get increased by one to many
-    // If the number_of_digits - 1 are the same as allowedDigits
-    return numberOfDigits - 1 == allowedDigits;
+    return numberOfDigits == allowedDigits;
 }
 
 int main() {
@@ -54,7 +49,7 @@ int main() {
                 cout << "No alphabetic characters allowed. Try again with only digits! "
                      << endl; // Error message. Helps user to correct it's input
 
-            } else if (!isCorrectLength(inputNumber)) {
+            } else if (!countDigits(inputNumber)) {
 
                 // clear failure state
                 cin.clear();
@@ -93,12 +88,14 @@ int main() {
             cin >> toContinue;
             toContinue = toupper(toContinue); // make letter upper case.
 
-            if (toContinue != 'Y') {//
-                cout << "You can only use the 'Y' and 'N' key to reply "
-                     << endl; // Error messages to help user correct it's input.
-            }
+//            if (toContinue != 'Y' || toContinue != 'N') {//
+//                cout << "You can only use the 'Y' and 'N' key to reply "
+//                     << endl; // Error messages to help user correct it's input.
+//            }
 
         } while (!(toContinue == 'Y' || toContinue == 'N')); //only 'Y','y','n','N' is allowed
 
-    } while (toContinue = 'Y');
+    } while (toContinue == 'Y');
+
+    return 0;
 }

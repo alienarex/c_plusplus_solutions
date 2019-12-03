@@ -16,9 +16,9 @@ Further more it's a way of getting to know the c++ syntax and structure before t
 
 ## Procedures
 For software used in this laboratory, see "Environment & Tools". 
-All source code used in this laboratory is in the file "main.cpp". In the file there are two methods: main() and isCorrectLength().
-Content in isCorrectLength() is the functions for validate that the input number is consistent with the requirements (2019-11-19 the required number of digits is five (5).)
-Content in main(): Function for ensure the integrity of the code (input control). Method call to isCorrectLength() and all the algorithms for calculate if the validated number is a palindrome.
+All source code used in this laboratory is in the file "main.cpp". In the file there are two methods: main() and countDigits().
+Content in countDigits() is the functions for validate that the input number is consistent with the requirements (2019-11-19 the required number of digits is five (5).)
+Content in main(): Function for ensure the integrity of the code (input control). Method call to countDigits() and all the algorithms for calculate if the validated number is a palindrome.
 
 ###Problems:
 
