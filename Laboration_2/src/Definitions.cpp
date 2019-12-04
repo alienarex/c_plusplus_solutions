@@ -22,18 +22,17 @@ bool authenticateUser(string value) {
     /**
      * Add needed code as stated in the lab description
      */
-    string tempPass, tempUser;
-
-    auto pos = value.find("'");
-    auto findSeperation = value.find(",");
     int counter = 0;
-    for (int i = 0; i < value.length(); ++i) {
+    string userInfo = USERNAME + "," +
+                      PASSWORD; // creates a copy of the const variables and puts a ',' between them so it an exact replica of param: value
 
+    for (int i = 0; i < value.size(); ++i) { // Loops through param: value
 
-        if (value[i] == '\'')//Hittar ' tecknet i stringen. Är det vad man ska göra? Tänker att man hittar infon mellan '' och kan extrahera username och password.
-            counter = i;
+        value[i] == userInfo[i] ? counter++
+                                : counter;// Increase counter if statment is true else counter keeps it's value
     }
-    return authPassed;
+
+    return counter == userInfo.size();
 }
 
 string decryptPassword(string pass) {
