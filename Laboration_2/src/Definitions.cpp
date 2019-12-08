@@ -44,10 +44,10 @@ string decryptPassword(string pass) {
     /**
      * Add needed code as stated in the lab description
      */
-//TODO Fix so it also checks after digits . Now it omits them.
-    int test = pass.size();
+
     bool isVowel;
-    for (int i = 0; i < test; ++i) {
+
+    for (int i = 0; i < pass.size(); ++i) {
 
         if (i % 2 == 0) {
             isVowel = false;
