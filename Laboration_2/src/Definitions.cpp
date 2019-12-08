@@ -1,6 +1,4 @@
 #include "Prototypes.h"
-#include <vector>
-#include <iterator>
 
 using std::string;
 using std::stringstream;
@@ -15,8 +13,6 @@ string mainArgumentParser(int argc, char *argv[]) {
     return ss.str();
 }
 
-//TODO fix the mindfart!
-//  The input value shall be the clear password, decrypt in decryptPassword(..) and then be checked against the encrypted password
 bool authenticateUser(string value) {
     const string USERNAME = "Kalle";
     const string PASSWORD = "i0J0u0j0u0J0Zys0r0{";
@@ -37,8 +33,8 @@ bool authenticateUser(string value) {
 
         pass += value[i];
     }
-    decryptPassword(pass);
-    return authPassed;
+
+    return decryptPassword(pass) == PASSWORD;
 }
 
 string decryptPassword(string pass) {
@@ -50,24 +46,27 @@ string decryptPassword(string pass) {
      */
 //TODO Fix so it also checks after digits . Now it omits them.
     int test = pass.size();
-    char vowel;
+    bool isVowel;
     for (int i = 0; i < test; ++i) {
 
         if (i % 2 == 0) {
+            isVowel = false;
 
             for (auto ch :VOWELS) {
 
                 if (pass[i] == ch) {
                     decrypted.append("0");
                     decrypted.append(1, pass[i] + ROT7);
-                    decrypted.append("0");
-                    break;
-                } else {
-                    decrypted.append(1, pass[i] + ROT7);
-                    break;
+                    decrypted.append("0}");
+                    isVowel = true;
                 }
             }
-        } else {
+            if (!isVowel)
+                decrypted.append(1, pass[i] + ROT7);
+
+        }
+        if (i % 2 == 1) {
+            isVowel = false;
 
             for (auto ch :VOWELS) {
 
@@ -75,16 +74,13 @@ string decryptPassword(string pass) {
                     decrypted.append("0");
                     decrypted.append(1, pass[i] + ROT9);
                     decrypted.append("0");
-                    break;
-
-                } else {
-                    decrypted.append(1, pass[i] + ROT9);
-                    break;
-
+                    isVowel = true;
                 }
+            }
+            if (!isVowel) {
+                decrypted.append(1, pass[i] + ROT9);
             }
         }
-
     }
 
     return decrypted;
