@@ -10,5 +10,6 @@ std::string mainArgumentParser(int argc, char* argv[]);
 
 bool authenticateUser(std::string value);
 std::string decryptPassword(std::string pass);
+std::string encryptPassword(std::string pass);
 
 #endif //DT018G_PROTOTYPES_H

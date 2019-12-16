@@ -17,24 +17,55 @@ bool authenticateUser(string value) {
     const string USERNAME = "Kalle";
     const string PASSWORD = "i0J0u0j0u0J0Zys0r0{";
 
-    bool authPassed = false;
+    bool authPassed = false;  // Not in use, but can't remove due to explicit restrictions.
     /**
-     * Add needed code as stated in the lab description
+     * Param: value contains password and username, separated by ','.
+     * This function splits the string into two variables at the ',' and return the authentication state.
      */
 
-
-    string pass; // variable name is same as param in decryptPassword.
+    string pass, username; // variable for the password and username when splitted
 
     auto pos = value.find_first_of(
             ",");// Name does't contains "," the first occurence of that is not a part of the password
-    int startPassword = pos + 1; // Gets position of the first character in password
 
-    for (int i = startPassword; i < value.size(); ++i) { // Loops through the passwords characters
+    // Splits the value string into two individual
+    for (int i = 0; i < value.size(); ++i) {
 
-        pass += value[i];
+        if (i < pos) {
+            username += value[i];
+        } else if (i > pos) {
+            pass += value[i];
+        }
+    }
+    // Returns as true if password is validated and input username is same as stored USERNAME. (Should I use the authPassed for clarifications?)
+    return encryptPassword(pass) == PASSWORD && USERNAME == username;
+}
+
+string encryptPassword(string pass) {
+    /**
+     * Encrypts the password and returns it to authenticateUser(..) for validation.
+     */
+
+    const int ROT7 = 7, ROT9 = 9;
+    const string VOWELS = "AEIOUYaeiouy";
+    string encrypted;
+    stringstream ss;
+
+    for (size_t i = 0; i < pass.size(); ++i) {
+
+        const size_t KEY = (i % 2 == 0) ? ROT7 : ROT9; // Sets the decrypt key in runtime
+
+        char thisChar = pass[i], encryptedChar = thisChar + KEY; // Initiates and assign values to chars.
+
+        bool isVowel = VOWELS.find(thisChar) !=
+                       string::npos; // Initiates isVowel and assign value 'true' if thisChar exists in string VOWELS.
+
+        isVowel ? ss << 0 << encryptedChar << 0 : ss
+                << encryptedChar; // using stringStream to add '0' to modified string if isVowel == true.
     }
 
-    return decryptPassword(pass) == PASSWORD;
+//    string check = ss.str();
+    return ss.str();
 }
 
 string decryptPassword(string pass) {
@@ -42,46 +73,8 @@ string decryptPassword(string pass) {
     const string VOWELS = "AEIOUYaeiouy";
     string decrypted;
     /**
-     * Add needed code as stated in the lab description
+     * Not implemented
      */
-
-    bool isVowel;
-
-    for (int i = 0; i < pass.size(); ++i) {
-
-        if (i % 2 == 0) {
-            isVowel = false;
-
-            for (auto ch :VOWELS) {
-
-                if (pass[i] == ch) {
-                    decrypted.append("0");
-                    decrypted.append(1, pass[i] + ROT7);
-                    decrypted.append("0}");
-                    isVowel = true;
-                }
-            }
-            if (!isVowel)
-                decrypted.append(1, pass[i] + ROT7);
-
-        }
-        if (i % 2 == 1) {
-            isVowel = false;
-
-            for (auto ch :VOWELS) {
-
-                if (pass[i] == ch) {
-                    decrypted.append("0");
-                    decrypted.append(1, pass[i] + ROT9);
-                    decrypted.append("0");
-                    isVowel = true;
-                }
-            }
-            if (!isVowel) {
-                decrypted.append(1, pass[i] + ROT9);
-            }
-        }
-    }
 
     return decrypted;
 }
