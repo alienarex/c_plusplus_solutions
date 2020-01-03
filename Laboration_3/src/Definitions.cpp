@@ -1,4 +1,6 @@
 #include "Prototypes.h"
+#include <iomanip>
+#include <string>
 
 long_type fibonacciIteration(size_t nthNumber) {
     size_t x = 0, y = 1, z = 0;
@@ -35,24 +37,29 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
         switch (i) {
             case 0: // iterationtypen
                 stat.type = "iteration";
-                for (int j = nthNumber; j <= nthNumber; j--) {
+                for (size_t j = nthNumber; j <= nthNumber; j--) {
                     sequence++;
-                    stat.values.push_back(fibonacciIteration((j)));
-                    if (sequence == 5) {
+                    long long test = fibonacciIteration(j);
+                    stat.values.push_back(test);
+//                    stat.values.push_back(fibonacciIteration((j)));
+                    if (sequence == 5 || nthNumber == j) {
                         sequence = 0;
-                        std::cout << stat.type << " " << j << "th " << stat.values[nthNumber - j] << std::endl;
+                        std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[nthNumber - j] << std::endl;
                     }
                 }
                 break;
+
             case 1: // reqursion
                 stat.type = "reqursion";
-                for (int j = nthNumber; j <= nthNumber; --j) {
+                for (size_t j = nthNumber; j <= nthNumber; --j) {
                     sequence++;
                     stat.values.push_back(fibonacciIteration((j)));
 
-                    if (sequence == 5) {
+                    if (sequence == 5 || nthNumber == j) {
+
                         sequence = 0;
-                        std::cout << stat.type << " " << j << "th " << stat.values[nthNumber - j] << std::endl;
+                        std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[nthNumber - j] << std::endl;
+
                     }
                 }
 
@@ -62,18 +69,6 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
         }
         stats.push_back(stat);
 
-//        if (i == 0) {
-//            sequence++;
-//        }
-//        if (i == 1) {
-//            stat.values.push_back(fibonacciRecursion(j));
-//            sequence++;
-//        }
-//        if (sequence == 5) {
-//            sequence = 0;
-//            std::cout << stat.type << j << "th " << stat.values[nthNumber - j] << std::endl;
-//        }
-//    }
     }
 
     return stats;
