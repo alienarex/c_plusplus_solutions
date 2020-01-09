@@ -14,6 +14,25 @@ long_type fibonacciIteration(size_t nthNumber) {
     return x;
 }
 
+Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point startTime) {
+
+    std::chrono::high_resolution_clock::time_point endTime;
+
+    using fpSeconds = std::chrono::duration<float, std::chrono::seconds::period>;
+    using millisec=  std::chrono::duration<float, std::chrono::milliseconds::period>;
+    using microsec=  std::chrono::duration<float, std::chrono::microseconds::period>;
+    using nanosec=  std::chrono::duration<float, std::chrono::nanoseconds::period>;
+
+    endTime = std::chrono::high_resolution_clock::now();
+    stat.millisec = millisec(endTime - startTime).count();
+    stat.nanosec = nanosec(endTime - startTime).count();
+    stat.microsec = microsec(endTime - startTime).count();
+    stat.sec = fpSeconds(endTime - startTime).count();
+    stat.millisec = millisec(endTime - startTime).count();
+
+    return stat;
+}
+
 std::vector<Stats> fibonacciTimer(size_t nthNumber) {
     /*Pseudo Code, fibonacciTimer(...) Output, example
     REPEAT {
@@ -101,23 +120,4 @@ long_type fibonacciRecursion(size_t nthNumber) {
                 nthNumber;
     return
             fibonacciRecursion(nthNumber - 1) + fibonacciRecursion(nthNumber - 2);
-}
-
-Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point startTime) {
-
-    std::chrono::high_resolution_clock::time_point endTime;
-
-    using fpSeconds = std::chrono::duration<float, std::chrono::seconds::period>;
-    using millisec=  std::chrono::duration<float, std::chrono::milliseconds::period>;
-    using microsec=  std::chrono::duration<float, std::chrono::microseconds::period>;
-    using nanosec=  std::chrono::duration<float, std::chrono::nanoseconds::period>;
-
-    endTime = std::chrono::high_resolution_clock::now();
-    stat.millisec = millisec(endTime - startTime).count();
-    stat.nanosec = nanosec(endTime - startTime).count();
-    stat.microsec = microsec(endTime - startTime).count();
-    stat.sec = fpSeconds(endTime - startTime).count();
-    stat.millisec = millisec(endTime - startTime).count();
-
-    return stat;
 }
