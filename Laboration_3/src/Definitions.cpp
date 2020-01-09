@@ -34,25 +34,11 @@ Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point 
 }
 
 std::vector<Stats> fibonacciTimer(size_t nthNumber) {
-    /*Pseudo Code, fibonacciTimer(...) Output, example
-    REPEAT {
-    DETERMINE type of approach
-    SET Stats.type
-    MARK start time
-    REPEAT {
-    CALL appropriate Fibonacci function
-    ADD Fibonacci value to Stats container
-    FOR EACH 5th sequence OUTPUT information on screen**
-    } IF iteration IS NOT 0*
-    MARK end time
-    CALCULATE duration of all needed formats
-    SET duration for relevant Stats members
-    } FOR each Fibonacci approach
-    RETURN container filled with two Stats objects*/
+
     std::vector<Stats> stats;
 
-
     std::chrono::high_resolution_clock::time_point startTime;
+
 
 
     for (int i = 0; i < 2; ++i) {
@@ -66,30 +52,31 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
                 stat.type = "iteration";
 
                 for (size_t j = nthNumber; j <= nthNumber; j--) {
+
                     sequence++;
-                    long long test = fibonacciIteration(j);
-                    stat.values.push_back(test);
-//                    stat.values.push_back(fibonacciIteration((j)));
+
+                    long long returnValueFibonacciIteration = fibonacciIteration(j);
+                    stat.values.push_back(returnValueFibonacciIteration);
+
                     if (sequence == 5 || nthNumber == j) {
                         sequence = 0;
                         std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[nthNumber - j] << std::endl;
                     }
                 }
-
                 stat = setStatsTiming(stat, startTime);
+
                 break;
 
             case 1: // reqursion
 
                 stat.type = "reqursion";
-                startTime = std::chrono::high_resolution_clock::now();
 
                 for (size_t j = nthNumber; j <= nthNumber; --j) {
 
-
                     sequence++;
-                    stat.values.push_back(fibonacciRecursion((j)));
 
+                    long long returnValueFibonacciRecursion = fibonacciRecursion(j);
+                    stat.values.push_back(returnValueFibonacciRecursion);
 
                     if (sequence == 5 || nthNumber == j) {
 
@@ -100,15 +87,13 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 
                 }
                 stat = setStatsTiming(stat, startTime);
-
 
                 break;
 
             default:
                 break;
         }
-        stats.push_back(stat);
-
+        stats.push_back(stat);// Initialized in the switch
     }
     return stats;
 }
