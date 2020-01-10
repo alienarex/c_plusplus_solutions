@@ -31,7 +31,6 @@ void mainMenu() {
                 size_t userInput = subMenu();
 
                 fibonacciTimer(userInput);
-                // TODO add CALL printStats() and writeToFile()
             }
             if (userMenuChoice == 2) { exit = true; }
         }
