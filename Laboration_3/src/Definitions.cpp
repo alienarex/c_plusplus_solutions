@@ -40,7 +40,6 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
     std::chrono::high_resolution_clock::time_point startTime;
 
 
-
     for (int i = 0; i < 2; ++i) {
         Stats stat;
         int sequence = 0;
@@ -49,15 +48,15 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
         switch (i) {
 
             case 0: // iterationtypen
-                stat.type = "iteration";
-
+                stat.type = "Iteration";
+//TODO iterates one more then it should. How fix?
                 for (size_t j = nthNumber; j <= nthNumber; j--) {
 
                     sequence++;
 
-                    long long returnValueFibonacciIteration = fibonacciIteration(j);
+                    size_t returnValueFibonacciIteration = fibonacciIteration(j);
                     stat.values.push_back(returnValueFibonacciIteration);
-
+//TODO output WRONG !#%#!!
                     if (sequence == 5 || nthNumber == j) {
                         sequence = 0;
                         std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[nthNumber - j] << std::endl;
@@ -69,13 +68,13 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 
             case 1: // reqursion
 
-                stat.type = "reqursion";
+                stat.type = "Reqursion";
 
                 for (size_t j = nthNumber; j <= nthNumber; --j) {
 
                     sequence++;
 
-                    long long returnValueFibonacciRecursion = fibonacciRecursion(j);
+                    size_t returnValueFibonacciRecursion = fibonacciRecursion(j);
                     stat.values.push_back(returnValueFibonacciRecursion);
 
                     if (sequence == 5 || nthNumber == j) {
@@ -101,8 +100,6 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 
 long_type fibonacciRecursion(size_t nthNumber) {
     if (nthNumber <= 1)
-        return
-                nthNumber;
-    return
-            fibonacciRecursion(nthNumber - 1) + fibonacciRecursion(nthNumber - 2);
+        return nthNumber;
+    return fibonacciRecursion(nthNumber - 1) + fibonacciRecursion(nthNumber - 2);
 }
