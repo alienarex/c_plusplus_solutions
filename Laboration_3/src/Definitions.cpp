@@ -49,18 +49,19 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 
             case 0: // iterationtypen
                 stat.type = "Iteration";
-//TODO iterates one more then it should. How fix?
-                for (size_t j = nthNumber; j <= nthNumber; j--) {
+                //TODO output WRONG. Adds one more then suppose to!!
 
-                    sequence++;
+                for (size_t j = nthNumber - 1, counter = 0; j <= nthNumber; --j, counter++) {
+
 
                     size_t returnValueFibonacciIteration = fibonacciIteration(j);
                     stat.values.push_back(returnValueFibonacciIteration);
-//TODO output WRONG !#%#!!
-                    if (sequence == 5 || nthNumber == j) {
-                        sequence = 0;
-                        std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[nthNumber - j] << std::endl;
+
+                    //TODO output WRONG. Adds one more then suppose to!!
+                    if (counter % 5 == 0) {
+                        std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[counter] << std::endl;
                     }
+
                 }
                 stat = setStatsTiming(stat, startTime);
 
@@ -70,17 +71,19 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 
                 stat.type = "Reqursion";
 
-                for (size_t j = nthNumber; j <= nthNumber; --j) {
+                /* When assign nthNumber to j and decrease it in every iteration the array is populated in revered sequence and stats.values[0] has the highest value.
+                 * counter to get correct value from the stat.values[] and decide if it's the 5th iteration.
+                 */
+                for (size_t j = nthNumber - 1, counter = 0; j <= nthNumber; --j, counter++) {
 
-                    sequence++;
 
                     size_t returnValueFibonacciRecursion = fibonacciRecursion(j);
                     stat.values.push_back(returnValueFibonacciRecursion);
 
-                    if (sequence == 5 || nthNumber == j) {
+                    if (counter % 5 == 0) {
 
                         sequence = 0;
-                        std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[nthNumber - j] << std::endl;
+                        std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[counter] << std::endl;
 
                     }
 
@@ -97,7 +100,7 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
     return stats;
 }
 
-
+/*  */
 long_type fibonacciRecursion(size_t nthNumber) {
     if (nthNumber <= 1)
         return nthNumber;
