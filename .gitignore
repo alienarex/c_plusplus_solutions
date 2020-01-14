@@ -75,6 +75,8 @@ cmake-build-release
 # ignore everything except for one file in Resource folder
 _Resources/*
 !_Resources/README.md
+!_Resources/Iteration.txt
+!_Resources/Reqursion.txt
 
 # Misc
 .DS_Store
