@@ -1,21 +1,13 @@
 #include "Prototypes.h"
 
-//TODO move function heads to Prototypes.h
-bool inputValidation();
-
-bool inputValidationMainMenu(int input);
-
-bool inputValidationSubMenu(int userInput);
-
 
 int main() {
-//    int test = subMenu();
     mainMenu();
     return 0;
 }
 
 void mainMenu() {
-// TODO Add code as required in submission description
+
     int userMenuChoice = 0;
     bool exit = false;
 
@@ -82,8 +74,8 @@ void writeToFile(const Stats &stats) {
 
     for (int i = 0, j = stats.values.size(); i < stats.values.size(); i++, --j) {
 
-        int reversedValue = stats.values[stats.values.size() - j];
-        outputFile << left << j << ":" << " " << reversedValue << endl;
+        int reversedValue = stats.values[i];
+        outputFile << left << j - 1 << ":" << " " << reversedValue << endl;
     }
 }
 
@@ -106,7 +98,6 @@ bool inputValidationMainMenu(int userInput) {
 }
 
 bool inputValidation() {
-// WORKS
     using namespace std;
 
     if (cin.fail()) { // the input couldn't be cast as integer value
