@@ -16,25 +16,28 @@ int main() {
 
 void mainMenu() {
 // TODO Add code as required in submission description
-    do {
-        int userMenuChoice = 0;
-        bool exit = false;
+    int userMenuChoice = 0;
+    bool exit = false;
 
+    do {
         std::cout << "FIBONACCI SEQUENCE MEASUREMENTS" << "\n" << "===============================" << std::endl;
         std::cout << "1. Run measurements" << "\n" << "2. EXIT" << std::endl;
-        std::cin >> userMenuChoice;
+        do {
+            std::cin >> userMenuChoice;
 
-        if (inputValidationMainMenu(userMenuChoice)) {
+        } while (!inputValidationMainMenu(userMenuChoice));
+        if (userMenuChoice == 2) { break; }
 
-            while (userMenuChoice == 1) {
+        size_t userInput = subMenu();
 
-                size_t userInput = subMenu();
+        std::vector<Stats> stats = fibonacciTimer(userInput);
+        printStats(stats);
 
-                fibonacciTimer(userInput);
-            }
-            if (userMenuChoice == 2) { exit = true; }
+        for (Stats stat:stats) {
+            writeToFile(stat);
         }
-    } while (!exit);
+
+    } while (!system("pause")); //"press any key" for Windows);
 }
 
 size_t subMenu() {
@@ -49,6 +52,39 @@ size_t subMenu() {
     } while (!inputValidationSubMenu(userInput));
 
     return userInput;
+}
+
+
+void printStats(const std::vector<Stats> &stats) {
+    using namespace std;
+    cout << internal << setw(30) << "Nanosec" << setw(20) << "Microsec" << setw(20) << "Millisec" << setw(20) << "Seconds" << "\n" <<
+         "================================================================================================" << endl;
+    for (Stats stat:stats) {
+        string seconds = to_string(stat.sec);
+        size_t found = seconds.find_last_not_of('0');
+        seconds.erase(found + 1);
+        cout << internal << stat.type << ":" << setw(20) << stat.nanosec << setw(20) << stat.microsec << setw(20) << stat.millisec << setw(20) << seconds << endl;
+
+    }
+
+}
+
+void writeToFile(const Stats &stats) {
+    using namespace std;
+    string path;
+
+    if (stats.type == "Reqursion") {
+        path = "../../_Resources/Reqursion.txt";
+    } else if (stats.type == "Iteration") {
+        path = "../../_Resources/Iteration.txt";
+    }
+    ofstream outputFile(path);
+
+    for (int i = 0, j = stats.values.size(); i < stats.values.size(); i++, --j) {
+
+        int reversedValue = stats.values[stats.values.size() - j];
+        outputFile << left << j << ":" << " " << reversedValue << endl;
+    }
 }
 
 bool inputValidationSubMenu(int userInput) {
