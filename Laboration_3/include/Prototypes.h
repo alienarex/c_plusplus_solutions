@@ -76,4 +76,11 @@ bool inputValidationMainMenu(int input);
  */
 bool inputValidationSubMenu(int userInput);
 
+/**
+ * Calculates duration between start and end time in micro-, milli-, nano- and seconds.
+ * @param stat,startTime .
+ * @return Stats with set timing values
+ * */
+Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point startTime);
+
 #endif //DT018G_PROTOTYPES_H

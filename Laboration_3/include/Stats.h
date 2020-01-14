@@ -5,7 +5,9 @@
 #include <vector>
 
 typedef unsigned long long long_type;
-
+/**
+ * Deceleration of struct Stats
+ */
 struct Stats {
     std::string type;
     std::vector<long_type> values;
