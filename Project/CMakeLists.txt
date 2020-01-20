@@ -2,7 +2,7 @@
 aux_source_directory(src/ PROJECT_SOURCES)
 
 # Create executable for the run configuration
-add_executable(${PROJECT_NAME}-Project ${PROJECT_SOURCES})
+add_executable(${PROJECT_NAME}-Project ${PROJECT_SOURCES} include/Person.h include/constants.h)
 
 # In order to avoid '../../../' semantics in include paths (relative), we need to add
 # target directory to the configuration
