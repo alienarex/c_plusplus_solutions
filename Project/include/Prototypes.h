@@ -9,9 +9,9 @@
 void projectFunction();
 
 /**
- * Print persons to screen
+ * Print databasePersons to screen
  */
-void printPersons(const std::vector<Person> &persons);
+void printPersons();
 
 /**
  * Retrieves users info
@@ -21,9 +21,23 @@ void inputMenu();
 /**
  * Creates a substring from 3 first char in first- and last-name. If length less then 3, x fill up to 3 char.
  *
- * @param Person destructure, seqNumber = number of existing rows in database
+ * @param const std::string &firstname, const std::string &lastname,, strings from which the signature are extracted from
+ * @param int seqNumber, number of existing rows in database to add a sequential number to signature
+ * @return std::string signature
  */
-Person getSignature(Person person, int seqNumber);
+std::string getSignature(const std::string &firstname, const std::string &lastname, int seqNumber);
 
+/**
+ * @param firstname, lastname,height,  info supplied by user
+ */
+void createPerson(const std::string &firstname, const std::string &lastname, double height);
+
+/**Gets the list of persons from database*/
+std::vector<Person> getPersonsFromDatabase();
+
+/**
+ * Converts persons height to string with two decimals
+ */
+std::string getPersonHeight(double height);
 
 #endif //DT018G_PROTOTYPES_H

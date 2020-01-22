@@ -9,48 +9,49 @@ int main() {
     projectFunction();
     return 0;
 }*/
-double getPersonHeight(double height);
 
 int main() {
-    inputMenu();
-    projectFunction();
+    printPersons();
+//    inputMenu();
+//    projectFunction();
     return 0;
 }
 
 void inputMenu() {
     using namespace std;
-    Person person;
-//    cout << "insert your first name" << endl;
-//    cin >> person.firstname;
-//    cin.clear();
-//    cout << "Enter your last name " << endl;
-//    cin >> person.lastname;
-////    cout << "Enter your height " << endl;
-////    cin >> person.height;
-    person.firstname = "Erik";
-    person.lastname = "Andersson";
-    person.height = getPersonHeight(1.5545);
-    auto test = 11;
-    getSignature(person, test);
+    string firstname, lastname;
+    double height;
+    cout << "insert your first name and press enter" << "\n" << "first name: " << endl;
+    cin >> firstname;
+    cout << "Last name; " << endl;
+    cin >> lastname;
+    cout << "Enter your height " << endl;
+    cin >> height;
+
+    createPerson(firstname, lastname, height);
+
 }
 
 
-void printPersons(const std::vector<Person> &persons) {
+void printPersons() {
     using namespace std;
-    int sequence;
+    std::vector<Person> persons = getPersonsFromDatabase();
+    int size = persons.size();
 
-    for (int i = 0, sequence = 1; i > persons.size(); i++, sequence++) {
 
-    }
     cout << "====================== NAME LIST ======================" << endl;
-    cout << "Number of persons in list: " << sequence << "\n" << endl;
-    cout << "Nr" << setw(20) << "Sign" << setw(20) << "Name" << setw(20) << "Length (m)" << endl;
+    cout << "Number of databasePersons in list: " << size << "\n" << endl;
+    cout << internal << "Nr" << setw(20) << "Sign" << setw(20) << "Name" << setw(50) << "Length (m)" << endl;
+
+    for (int i = 0, sequence = 1; i < persons.size(); i++, sequence++) {
+        std::string heightString = getPersonHeight(persons[i].height);
 
 
-    sequence = 1;
-    for (Person person:persons) {
-        cout << internal << sequence << "." << setw(20) << person.signature << setw(20) << person.firstname << " " << person.lastname << setw(50) << person.height << endl;
+        cout << internal << sequence << "." << setw(20) << persons[i].signature << setw(20) << persons[i].firstname << " " << persons[i].lastname
+             << setw(50) << heightString << endl;
     }
+
+
 }
 
 
