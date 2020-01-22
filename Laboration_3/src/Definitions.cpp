@@ -6,12 +6,14 @@
 
 long_type fibonacciIteration(size_t nthNumber) {
     size_t x = 0, y = 1, z = 0;
-    for (size_t i = 0; i < nthNumber; i++) { // bubble sorting
-        z = x + y;
-        x = y;
-        y = z;
+    // iterates through the value and moves the values around as visualized in the comments beneath
+    for (size_t i = 0; i < nthNumber; i++) {
+        z = x + y; // assign value to z iteration EXAMPLE: 1. 10 = 5 + 5; iteration 2. 15 = 5 + 10;
+        x = y; // The value y is assign to x. These values are then summed to z. EXAMPLE: iteration 1.  5 = 5; iteration 2. 10 = 10;
+        y = z; // EXAMPLE: iteration 1. 10 = 10; iteration 2. 15 = 15;
     }
-    return x;
+
+    return x;// Would return 10 if above EXAMPLE: is followed.
 }
 
 Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point startTime) {
@@ -32,6 +34,8 @@ Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point 
 
     return stat;
 }
+
+void outPutFibonacciValues(std::vector<Stats> stats);
 
 std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 
@@ -57,7 +61,9 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
                     stat.values.push_back(returnValueFibonacciIteration);
 
                     if (counter % 5 == 0) {
-                        std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[counter] << std::endl;
+                        size_t justify = std::to_string(stat.values[counter]).size();
+
+                        std::cout << stat.type << " " << j << "th " << std::right << std::setw(justify) << stat.values[counter] << std::endl;
                     }
 
                 }
@@ -91,12 +97,139 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
         }
         stats.push_back(stat);// Initialized in the switch
     }
+    outPutFibonacciValues(stats);
     return stats;
 }
 
+void outPutFibonacciValues(std::vector<Stats> stats) {
+// FAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK
+    for (Stats stat:stats) {
+        size_t value = stat.values.size() - 1;
+        for (int counter = 0, size = stat.values.size(); counter < stat.values.size(); counter += 5, size -= 5) {
+
+            size_t justify = std::to_string(stat.values[value - counter]).size();
+
+            std::cout << std::internal << stat.type << " " << size << "th " << std::setw(justify) << stat.values[counter] << std::endl;
+        }
+
+    }
+}
+
 /*  */
-long_type fibonacciRecursion(size_t nthNumber) {
+long_type fibonacciRecursion(size_t nthNumber) { // if nthNumber == 10.
     if (nthNumber <= 1)
         return nthNumber;
-    return fibonacciRecursion(nthNumber - 1) + fibonacciRecursion(nthNumber - 2);
+    // the function calls it self to return value1 and value2.
+    return fibonacciRecursion(nthNumber - 1) // This function call will be happen 10 times
+           + fibonacciRecursion(nthNumber - 2); // This function call will happen 5 times
+}
+
+void mainMenu() {
+
+    int userMenuChoice = 0;
+    bool exit = false;
+
+    do {
+        std::cout << "FIBONACCI SEQUENCE MEASUREMENTS" << "\n" << "===============================" << std::endl;
+        std::cout << "1. Run measurements" << "\n" << "2. EXIT" << std::endl;
+        do {
+            std::cin >> userMenuChoice;
+
+        } while (!inputValidationMainMenu(userMenuChoice));
+        if (userMenuChoice == 2) { break; }
+
+        size_t userInput = subMenu();
+
+        std::vector<Stats> stats = fibonacciTimer(userInput);
+        printStats(stats);
+
+        for (Stats stat:stats) {
+            writeToFile(stat);
+        }
+
+    } while (!system("pause")); //"press any key" for Windows);
+}
+
+size_t subMenu() {
+    using namespace std;
+    int userInput;
+    do {
+
+        cout << "Select n'th number to find:" << "\n";
+        cin >> userInput;
+
+
+    } while (!inputValidationSubMenu(userInput));
+
+    return userInput;
+}
+
+
+void printStats(const std::vector<Stats> &stats) {
+    using namespace std;
+    cout << internal << setw(30) << "Nanosec" << setw(20) << "Microsec" << setw(20) << "Millisec" << setw(20) << "Seconds" << "\n" <<
+         "================================================================================================" << endl;
+    for (Stats stat:stats) {
+        string seconds = to_string(stat.sec);
+        size_t found = seconds.find_last_not_of('0');
+        seconds.erase(found + 1);
+        cout << internal << stat.type << ":" << setw(20) << stat.nanosec << setw(20) << stat.microsec << setw(20) << stat.millisec << setw(20) << seconds << endl;
+
+    }
+
+}
+
+void writeToFile(const Stats &stats) {
+    using namespace std;
+    string path;
+
+    if (stats.type == "Reqursion") {
+        path = "../../_Resources/Reqursion.txt";
+    } else if (stats.type == "Iteration") {
+        path = "../../_Resources/Iteration.txt";
+    }
+    ofstream outputFile(path);
+
+    for (int i = 0, j = stats.values.size(); i < stats.values.size(); i++, --j) {
+
+        int reversedValue = stats.values[i];
+        outputFile << left << j - 1 << ":" << " " << reversedValue << endl;
+    }
+}
+
+bool inputValidationSubMenu(int userInput) {
+
+    if (inputValidation()) return true;
+    else {
+        std::cout << "Try again with a lower value" << std::endl;
+        return false;
+    }
+}
+
+bool inputValidationMainMenu(int userInput) {
+    if (inputValidation() && (userInput > 0 && userInput < 3)) return true;
+    else {
+        std::cout << "You can only use the given options" << "\n" << std::endl; // Error message. Helps user to correct it's input
+        return false;
+    }
+
+}
+
+bool inputValidation() {
+    using namespace std;
+
+    if (cin.fail()) { // the input couldn't be cast as integer value
+
+        // clear failure state
+        cin.clear();
+
+        // discard remaining unprocessed characters in the input stream
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        cout << "Use only numeric values with a maximum of 2 147 483 647" << endl; // Error message. Helps user to correct it's input
+
+        return false;
+
+
+    } else return true;
 }

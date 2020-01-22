@@ -9,7 +9,7 @@
 #include <fstream>
 
 /**
- * Calculates Fibonacci sequence using for-loop and bubble sorting.
+ * Calculates Fibonacci sequence using for-loop by
  * @param nthNumber, integer to be calculated
  * @return the calculated number
  */
