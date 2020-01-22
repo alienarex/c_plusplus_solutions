@@ -180,21 +180,16 @@ void printStats(const std::vector<Stats> &stats) {
 }
 
 void writeToFile(const Stats &stats) {
+// Ref: Erik Ström Lecture Miun 2020
     using namespace std;
     string path;
+    ofstream outputFile("../../_Resources/" + stats.type + ".txt");
 
-    if (stats.type == "Reqursion") {
-        path = "../../_Resources/Reqursion.txt";
-    } else if (stats.type == "Iteration") {
-        path = "../../_Resources/Iteration.txt";
-    }
-    ofstream outputFile(path);
+    size_t idx = stats.values.size();
+    for (auto &value : stats.values)
+        outputFile << --idx << ": " << value << endl;
+    outputFile.close();
 
-    for (int i = 0, j = stats.values.size(); i < stats.values.size(); i++, --j) {
-
-        int reversedValue = stats.values[i];
-        outputFile << left << j - 1 << ":" << " " << reversedValue << endl;
-    }
 }
 
 bool inputValidationSubMenu(int userInput) {
