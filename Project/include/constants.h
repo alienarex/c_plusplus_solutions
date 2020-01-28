@@ -12,7 +12,11 @@ struct Person {
     std::string lastname;
     std::string signature;
     double height;
+
 };
+
+
+
 const std::vector<Person> databasePersons;
 // TODO Create a kind of get function? Like createOnePerson(firstname,lastname, height);
 

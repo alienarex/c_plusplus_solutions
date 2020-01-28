@@ -27,17 +27,24 @@ void inputMenu();
  */
 std::string getSignature(const std::string &firstname, const std::string &lastname, int seqNumber);
 
-/**
- * @param firstname, lastname,height,  info supplied by user
- */
-void createPerson(const std::string &firstname, const std::string &lastname, double height);
-
-/**Gets the list of persons from database*/
-std::vector<Person> getPersonsFromDatabase();
 
 /**
  * Converts persons height to string with two decimals
  */
 std::string getPersonHeight(double height);
+
+
+/**Gets the list of persons from database*/
+std::vector<Person> getPersonsFromDatabase();
+
+/**
+ * @param firstname, lastname,height,  info supplied by user
+ */
+void createPerson(const std::string &firstname, const std::string &lastname, double height);
+
+/**
+ * delete one person from vector returns m
+ */
+std::vector<Person> deletePerson(const std::string& signature);
 
 #endif //DT018G_PROTOTYPES_H
