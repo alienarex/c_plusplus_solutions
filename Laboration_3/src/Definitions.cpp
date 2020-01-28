@@ -38,7 +38,7 @@ Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point 
 void outPutFibonacciValues(std::vector<Stats> stats);
 
 std::vector<Stats> fibonacciTimer(size_t nthNumber) {
-
+//TODO Remove redundancy based on given feedback
     std::vector<Stats> stats;
 
     std::chrono::high_resolution_clock::time_point startTime;
@@ -102,6 +102,7 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 }
 
 void outPutFibonacciValues(std::vector<Stats> stats) {
+    //TODO Is this needed?
 // FAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK
     for (Stats stat:stats) {
         size_t value = stat.values.size() - 1;
@@ -166,6 +167,8 @@ size_t subMenu() {
 
 
 void printStats(const std::vector<Stats> &stats) {
+    //TODO .Add this to menu. If nthNumber is 30 this range would be 30 .. 0, with a header looking like:
+    // Duration of running Fibonacci sequences within the range of 30..0.
     using namespace std;
     cout << internal << setw(30) << "Nanosec" << setw(20) << "Microsec" << setw(20) << "Millisec" << setw(20) << "Seconds" << "\n" <<
          "================================================================================================" << endl;
