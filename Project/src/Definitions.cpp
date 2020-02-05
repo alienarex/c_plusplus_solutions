@@ -53,12 +53,21 @@ std::vector<Person> getPersonsFromDatabase() { // TODO remove all code addding p
     person.signature = "eriand01";
 
     newDBPersons.push_back(person);
+
+    Person pers3;
+    pers3.firstname = "Mattisas";
+    pers3.lastname = "Storebror";
+    pers3.height = 1.20;
+    pers3.signature = "mast03";
+    newDBPersons.push_back(pers3);
+
     Person p;
     p.firstname = "Anna";
     p.lastname = "Persdotter";
     p.height = 2.5545;
     p.signature = "annper02";
     newDBPersons.push_back(p);
+
 
     return newDBPersons;
 
@@ -102,5 +111,27 @@ std::vector<Person> deletePerson(const std::string &signature) {
     return persons;
 }
 
-bool is_younger(Person p1, Person p2) { return p1.firstname < p2.firstname; }
+std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType) {
+    using namespace std;
+    switch (sortType) {
+        case lastname:
+            sort(persons.begin(), persons.end(), compareByLastName());
+            break;
+        case signature:
+            sort(persons.begin(), persons.end(), compareBySignature());
+            break;
+        case height:
+            sort(persons.begin(), persons.end(), compareByHeight());
+            break;
+    }
 
+//    for (size_t i = 0; i < persons.size(); i++) {
+////        sort(persons[i + 1].firstname.begin(), persons[i + 1].firstname.end());
+//
+//    }
+//    for (auto it = persons.begin(); it != persons.end(); ++it) {
+//
+//        sort(persons.begin(), persons.end(), it);
+//    }
+    return persons;
+}

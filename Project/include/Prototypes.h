@@ -45,6 +45,9 @@ void createPerson(const std::string &firstname, const std::string &lastname, dou
 /**
  * delete one person from vector returns m
  */
-std::vector<Person> deletePerson(const std::string& signature);
+std::vector<Person> deletePerson(const std::string &signature);
+
+// UNDER DEV!
+std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType);
 
 #endif //DT018G_PROTOTYPES_H

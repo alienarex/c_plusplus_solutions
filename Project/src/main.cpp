@@ -1,3 +1,4 @@
+#include <utility>
 #include <vector>
 #include <iomanip>
 #include <cmath>
@@ -11,37 +12,22 @@ int main() {
     projectFunction();
     return 0;
 }*/
-
-bool compare(Person a, Person b) {
-    //for descending order replace with a.roll >b.roll
-    if (a.firstname < b.firstname)
-        return 1;
-    else
-        return 0;
-}
-
-// Sort Container by name function
-bool sortByName(const Person &lhs, const Person &rhs) {
-    return lhs.lastname > rhs.lastname;
-}
-
-void sortPersons() {
+void sortPersonsBy(std::vector<Person> persons) {
     using namespace std;
-    std::vector<Person> persons = getPersonsFromDatabase();
-//    bool test = sortByName(persons[0], persons[1]);
-    sort(persons.begin(), persons.end(), sortByName);
-//    for (size_t i = 0; i < persons.size(); i++) {
-////        sort(persons[i + 1].firstname.begin(), persons[i + 1].firstname.end());
-//
-//    }
-//    for (auto it = persons.begin(); it != persons.end(); ++it) {
-//
-//        sort(persons.begin(), persons.end(), it);
-//    }
+    SortType s;
+    int menuChoice = 0;
+    cout << "Sort list by: " << "1. Last name" << "2. Signature" << "3. Height";
+    cin >> menuChoice;
+    s = static_cast<SortType>(menuChoice);
+    persons = sortPersons(std::move(persons), s);
+
 }
 
 int main() {
-    sortPersons();
+    std::vector<Person> persons = getPersonsFromDatabase();
+
+//    sortPersons(persons);
+    sortPersonsBy(persons);
 //    printPersons();
 //    inputMenu();
 //    projectFunction();
@@ -89,6 +75,7 @@ void getSignatureForDeleting() {
     cin >> signature;
     vector<Person> persons = deletePerson(signature);
 }
+
 
 void mainMenu() {
 
