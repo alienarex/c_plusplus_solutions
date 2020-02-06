@@ -25,6 +25,9 @@ void sortPersonsBy(std::vector<Person> persons) {
 
 int main() {
     std::vector<Person> persons = getPersonsFromDatabase();
+    readFromFile();
+//    writeToFile(persons);
+//    randomizeDatabase(persons);
 
 //    sortPersons(persons);
     sortPersonsBy(persons);

@@ -7,6 +7,8 @@
 
 #include <string>
 
+const std::string DELIM = " | ";
+
 enum SortType {
     lastname = 1,
     signature = 2,
@@ -14,16 +16,23 @@ enum SortType {
     firstname = 4
 };
 
-
 struct Person {
     std::string firstname;
     std::string lastname;
     std::string signature;
     double height;
 
+//    friend std::ostream &operator<<(std::ostream &os, Person const &person) {
+//        return os << person.firstname << '|'
+//                  << person.lastname << '|'
+//                  << person.signature << '|'
+//                  << person.height << '|';
+//    }
+
 };
 
-struct compareByLastName {
+//TODO If last name is equal sort by first name
+struct compareByLastname {
     inline bool operator()(const Person &struct1, const Person &struct2) {
         return (struct1.lastname < struct2.lastname);
     }

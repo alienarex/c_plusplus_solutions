@@ -103,7 +103,6 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 
 void outPutFibonacciValues(std::vector<Stats> stats) {
     //TODO Is this needed?
-// FAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK
     for (Stats stat:stats) {
         size_t value = stat.values.size() - 1;
         for (int counter = 0, size = stat.values.size(); counter < stat.values.size(); counter += 5, size -= 5) {

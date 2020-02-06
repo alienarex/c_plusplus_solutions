@@ -2,7 +2,11 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
-
+#include <random> // randomize
+#include <fstream>
+#include <iterator>
+#include <fstream>
+#include <iostream>
 //#include "constants.h"
 
 void projectFunction() {
@@ -55,10 +59,10 @@ std::vector<Person> getPersonsFromDatabase() { // TODO remove all code addding p
     newDBPersons.push_back(person);
 
     Person pers3;
-    pers3.firstname = "Mattisas";
-    pers3.lastname = "Storebror";
+    pers3.firstname = "Mattias";
+    pers3.lastname = "Bror";
     pers3.height = 1.20;
-    pers3.signature = "mast03";
+    pers3.signature = "mabr03";
     newDBPersons.push_back(pers3);
 
     Person p;
@@ -115,7 +119,7 @@ std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType) 
     using namespace std;
     switch (sortType) {
         case lastname:
-            sort(persons.begin(), persons.end(), compareByLastName());
+            sort(persons.begin(), persons.end(), compareByLastname());
             break;
         case signature:
             sort(persons.begin(), persons.end(), compareBySignature());
@@ -125,13 +129,44 @@ std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType) 
             break;
     }
 
-//    for (size_t i = 0; i < persons.size(); i++) {
-////        sort(persons[i + 1].firstname.begin(), persons[i + 1].firstname.end());
-//
-//    }
-//    for (auto it = persons.begin(); it != persons.end(); ++it) {
-//
-//        sort(persons.begin(), persons.end(), it);
-//    }
     return persons;
+}
+
+std::vector<Person> randomizeDatabase(std::vector<Person> &persons) {
+
+    using namespace std;
+    shuffle(begin(persons), end(persons), default_random_engine());
+
+    return persons;
+}
+
+
+void writeToFile(std::vector<Person> &persons) {
+// Ref: Erik Ström Lecture Miun 2020
+    using namespace std;
+    string fileName = "database";
+    ofstream outputFile("../../_Resources/" + fileName + ".txt");
+
+    size_t idx = persons.size();
+    for (auto &person : persons)
+
+        outputFile << --idx << ": " << DELIM << person.firstname << DELIM << person.lastname << DELIM << person.signature << DELIM << person.height << endl;
+
+    outputFile.close();
+
+}
+
+void readFromFile() {
+
+    using namespace std;
+    std::vector<Person> persons;
+    string fileName = "database";
+    string str;
+    int i = 5;
+    ifstream getFile("../../_Resources/" + fileName + ".txt");
+    while (getline(getFile, str)) {
+        for (int j = 0; j < str.size(); ++j) {
+            
+        }
+    }
 }

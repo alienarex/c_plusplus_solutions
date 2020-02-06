@@ -50,4 +50,12 @@ std::vector<Person> deletePerson(const std::string &signature);
 // UNDER DEV!
 std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType);
 
+/**
+ * Randoize the struct Person in database
+ */
+std::vector<Person> randomizeDatabase(std::vector<Person> &persons);
+
+void writeToFile(std::vector<Person> &persons);
+
+void readFromFile();
 #endif //DT018G_PROTOTYPES_H
