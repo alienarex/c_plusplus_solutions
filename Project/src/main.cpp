@@ -16,20 +16,20 @@ void sortPersonsBy(std::vector<Person> persons) {
     using namespace std;
     SortType s;
     int menuChoice = 0;
-    cout << "Sort list by: " << "1. Last name" << "2. Signature" << "3. Height";
+    cout << "Sort list by: " << "\n" << "1. Last name" << "\t" << "2. Signature" << "\t" << "3. Height" << endl;
     cin >> menuChoice;
     s = static_cast<SortType>(menuChoice);
     persons = sortPersons(std::move(persons), s);
+
 
 }
 
 int main() {
     std::vector<Person> persons = getPersonsFromDatabase();
-    readFromFile();
+//    readFromFile();
 //    writeToFile(persons);
 //    randomizeDatabase(persons);
 
-//    sortPersons(persons);
     sortPersonsBy(persons);
 //    printPersons();
 //    inputMenu();
