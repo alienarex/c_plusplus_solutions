@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include "constants.h"
+#include "person.h"
+
 
 // Arbitrary function prototype, replace with your own prototype(s)
 void projectFunction();
@@ -57,5 +59,6 @@ std::vector<Person> randomizeDatabase(std::vector<Person> &persons);
 
 void writeToFile(std::vector<Person> &persons);
 
-void readFromFile();
+std::vector<Person> readFromFile();
+
 #endif //DT018G_PROTOTYPES_H
