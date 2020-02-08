@@ -7,7 +7,8 @@
 #include <iterator>
 #include <fstream>
 #include <iostream>
-//#include "constants.h"
+#include <sstream>
+#include "person.h"
 
 void projectFunction() {
     std::cout << "Project!" << std::endl;
@@ -72,7 +73,12 @@ std::vector<Person> getPersonsFromDatabase() { // TODO remove all code addding p
     p.signature = "annper02";
     newDBPersons.push_back(p);
 
-
+    Person pers4;
+    pers4.firstname = "Malas";
+    pers4.lastname = "Bror";
+    pers4.height = 1.20;
+    pers4.signature = "mabr03";
+    newDBPersons.push_back(pers4);
     return newDBPersons;
 
 }
@@ -150,23 +156,33 @@ void writeToFile(std::vector<Person> &persons) {
     size_t idx = persons.size();
     for (auto &person : persons)
 
-        outputFile << --idx << ": " << DELIM << person.firstname << DELIM << person.lastname << DELIM << person.signature << DELIM << person.height << endl;
+        outputFile << --idx << ": " << person.firstname << DELIM << person.lastname << DELIM << person.signature << DELIM << person.height << endl;
 
     outputFile.close();
 
 }
 
-void readFromFile() {
+std::vector<Person> readFromFile() {
 
     using namespace std;
     std::vector<Person> persons;
     string fileName = "database";
-    string str;
-    int i = 5;
-    ifstream getFile("../../_Resources/" + fileName + ".txt");
-    while (getline(getFile, str)) {
-        for (int j = 0; j < str.size(); ++j) {
-            
-        }
+    string line;
+    ifstream infile("../../_Resources/" + fileName + ".txt");
+    Person person;
+
+    while (getline(infile, line)) {
+        size_t omitIndex = line.find_first_of(' ');
+        line = line.substr(omitIndex);
+        size_t charNumber1 = line.find(DELIM);
+        person.firstname = line.substr(0, charNumber1);
+        size_t charNumber2 = line.find(DELIM, charNumber1 + 1);
+        person.lastname = line.substr(charNumber1 + 1, charNumber2 - (charNumber1 + 1));
+        size_t charNumber3 = line.find(DELIM, charNumber2 + 1);
+        person.signature = line.substr(charNumber2 + 1, charNumber3 - (charNumber2 + 1));
+        size_t charNumber4 = line.find(DELIM, charNumber3 + 1);
+        person.height = stof(line.substr(charNumber3 + 1, charNumber4 - (charNumber3 + 1)));
+        persons.push_back(person);
     }
+    return persons;
 }
