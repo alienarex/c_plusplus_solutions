@@ -15,7 +15,9 @@ int main() {
 
 
 int main() {
-    std::vector<Person> persons = getPersonsFromDatabase();
+//    std::vector<Person> persons = getPersonsFromDatabase();
+//    databasePersons;
+//    createPerson("Erik", "Andersson", 1.23);
     mainMenu();
 //    readFromFile();
 //    writeToFile(persons);
@@ -23,7 +25,7 @@ int main() {
 
 //    sortPersonsBy(persons);
 //    getPersons();
-    addPerson();
+//    addPerson();
 //    projectFunction();
     return 0;
 }

@@ -17,16 +17,21 @@ enum SortType {
     height = 3
 };
 enum MainMenu {
-    addRec = 1,
-    deleteRec,
-    findRec,
-    getList,
-    sortList,
-    randomizeList
+    addRecord = 1,
+    deleteRecord,
+    findRecord,
+    getRecords,
+    sortRecords,
+    randomizeRecords,
+    saveRecords,
+    loadRecords
 };
 
 std::vector<Person> getPersonsFromDatabase();
 
-const std::vector<Person> databasePersons;
+const std::vector<Person> databasePersons =
+        {
+                getPersonsFromDatabase()
+        };
 
 #endif //DT018G_CONSTANTS_H

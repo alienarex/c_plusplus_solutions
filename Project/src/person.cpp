@@ -14,7 +14,7 @@
 #include "person.h"
 
 
-std::string convertStringToLowerCase(std::string name) { // TODO control if needed in prototype.h
+std::string convertStringToLowerCase(std::string name) {
     std::string stringLowerCase;
 
     for (int letter = 0; letter < name.length(); ++letter) {
@@ -24,11 +24,11 @@ std::string convertStringToLowerCase(std::string name) { // TODO control if need
     return stringLowerCase;
 }
 
-std::string getSignature(const std::string &firstname, const std::string &lastname, int seqNumber) {
+std::string getSignature(const std::string &firstname, const std::string &lastname) {
 
-    auto seqNumToString = seqNumber > 9 ? std::to_string(seqNumber) : "0" + std::to_string(seqNumber);
+
     auto firstNameLength = firstname.length();
-    auto lastNameLength = firstname.length();
+    auto lastNameLength = lastname.length();
 
     std::string signature = firstNameLength > 3 ?
                             convertStringToLowerCase(firstname).substr(0, 3) :
@@ -37,9 +37,13 @@ std::string getSignature(const std::string &firstname, const std::string &lastna
     signature.append(firstNameLength > 3 ?
                      convertStringToLowerCase(lastname).substr(0, 3) :
                      convertStringToLowerCase(lastname).append(3 - lastNameLength, 'x'));
-    signature.append(seqNumToString);
+
 
     return signature;
+}
+
+v {
+    return seqNumber > 9 ? std::to_string(seqNumber) : "0" + std::to_string(seqNumber);
 }
 
 std::string getPersonHeight(double height) { // No need? It doesn't matter how the values is stored as long as the output shows with two decimals
@@ -49,8 +53,9 @@ std::string getPersonHeight(double height) { // No need? It doesn't matter how t
     return temp;
 }
 
-std::vector<Person> getPersonsFromDatabase() { // TODO remove all code addding person to vector
-    std::vector<Person> newDBPersons = databasePersons;
+std::vector<Person> getPersonsFromDatabase() {
+
+    std::vector<Person> newDBPersons;
     Person person;
     person.firstname = "Erik";
     person.lastname = "Andersson";
@@ -63,21 +68,21 @@ std::vector<Person> getPersonsFromDatabase() { // TODO remove all code addding p
     pers3.firstname = "Mattias";
     pers3.lastname = "Bror";
     pers3.height = 1.20;
-    pers3.signature = "mabr03";
+    pers3.signature = "matbro01";
     newDBPersons.push_back(pers3);
 
     Person p;
     p.firstname = "Anna";
     p.lastname = "Persdotter";
     p.height = 2.5545;
-    p.signature = "annper02";
+    p.signature = "annper01";
     newDBPersons.push_back(p);
 
     Person pers4;
     pers4.firstname = "Malas";
     pers4.lastname = "Bror";
     pers4.height = 1.20;
-    pers4.signature = "mabr03";
+    pers4.signature = "malbro02";
     newDBPersons.push_back(pers4);
     return newDBPersons;
 
@@ -85,15 +90,24 @@ std::vector<Person> getPersonsFromDatabase() { // TODO remove all code addding p
 
 void createPerson(const std::string &firstname, const std::string &lastname, double height) {
 
-    std::vector<Person> newDBPersons = getPersonsFromDatabase();
-    int nrOfPersons = newDBPersons.size();
+    std::vector<Person> persons = getPersonsFromDatabase();
+    int sameSignature = 0;
     Person p;
+
+    p.signature = getSignature(firstname, lastname);
+
+    // Counting identical signatures
+    for (auto &person : persons) {
+        if (person.signature == p.signature) {
+            sameSignature++;
+        }
+    }
 
     p.firstname = firstname;
     p.lastname = lastname;
     p.height = height;
-    p.signature = getSignature(firstname, lastname, nrOfPersons);
-    newDBPersons.push_back(p);
+    p.signature = sameSignature < 1 ? p.signature.append(getSequentialNumber()) : p.signature.append(getSequentialNumber(sameSignature)); // If signature exist a sequential number appends
+    persons.push_back(p);
 }
 
 std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType) {

@@ -29,11 +29,17 @@ void addPerson();
  * Creates a substring from 3 first char in first- and last-name. If length less then 3, x fill up to 3 char.
  *
  * @param const std::string &firstname, const std::string &lastname,, strings from which the signature are extracted from
- * @param int seqNumber, number of existing rows in database to add a sequential number to signature
  * @return std::string signature
  */
-std::string getSignature(const std::string &firstname, const std::string &lastname, int seqNumber);
+std::string getSignature(const std::string &firstname, const std::string &lastname);
 
+/**
+ * Format seqNumber to string. Adds "0" before if seqNumber less then 9. (ex 09)
+ * Default value 1
+ * @param int seqNumber
+ * @return std::string
+ * */
+std::string getSequentialNumber(int seqNumber = 1);
 
 /**
  * Converts persons height to string with two decimals
@@ -55,14 +61,17 @@ void createPerson(const std::string &firstname, const std::string &lastname, dou
 std::vector<Person> deletePerson();
 
 /**
- *Get enum SortType sort by firstname if lastname same.
+ * Sorting vector. If last names same sorting by first name
+ * @param vector<Person> persons,SortType sortType
+ * @return vector<Person> persons, sorted
  */
 std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType);
 
 /**
- * Randoize the struct Person in database
+ * Randomize the struct Person in database
+ * @param vector<Person> persons
  */
-std::vector<Person> randomizeDatabase(std::vector<Person> &persons);
+std::vector<Person> randomizeDatabase(std::vector<Person> persons);
 
 void writeToFile(std::vector<Person> &persons);
 

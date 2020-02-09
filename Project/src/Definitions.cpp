@@ -21,25 +21,25 @@ void mainMenu() {
     MainMenu input;
     cout << "====================== Main menu ======================" << endl;
 
-    cout << "1. Add " << DELIM << " 2. Delete " << DELIM << " 3. Find record " << DELIM << " 3. Get list " << DELIM << " 4. Sort list " << DELIM << " 5. Randomize list" << endl;
+    cout << "1. Add " << DELIM << " 2. Delete " << DELIM << " 3. Find record " << DELIM << " 4. Get all " << DELIM << " 5. Sort database " << DELIM << " 6. Randomize database " << DELIM << " 7. Save records " <<
+         DELIM << " 8. Load database " << endl;
     cin >> menuChoice;
     input = static_cast<MainMenu>(menuChoice);
 
     switch (input) {
-        case addRec:
+        case addRecord:
             addPerson();
             break;
-        case deleteRec:
+        case deleteRecord:
             deletePerson();
             break;
-        case findRec:
+        case findRecord:
             findPerson();
             break;
-        case getList:
+        case getRecords:
             getPersons();
             break;
-//        case sortList:
-//            sortPersonsBy
+
     }
 
 
@@ -95,20 +95,39 @@ std::vector<Person> deletePerson() {
 
 void getPersons() {
     using namespace std;
-    std::vector<Person> persons = getPersonsFromDatabase();
-    int size = persons.size();
+
+    int size = databasePersons.size();
 
 
     cout << "====================== NAME LIST ======================" << endl;
     cout << "Number of databasePersons in list: " << size << "\n" << endl;
-    cout << internal << "Nr" << setw(20) << "Sign" << setw(20) << "Name" << setw(50) << "Length (m)" << endl;
+    cout << internal
+         << left << setw(5)
+         << "Nr"
+         << left << setw(15)
+         << left << "Sign"
+         << left << setw(20)
+         << "Name"
+         << right << setw(20)
+         << right << "Length (m)" << endl;
 
-    for (int i = 0, sequence = 1; i < persons.size(); i++, sequence++) {
-        std::string heightString = getPersonHeight(persons[i].height);
+    for (int i = 0, sequence = 1; i < databasePersons.size(); i++, sequence++) {
+        std::string heightString = getPersonHeight(databasePersons[i].height);
+        std::string tempName = databasePersons[i].firstname + " " + databasePersons[i].lastname;
 
+//        cout << internal << sequence << "." << setw(15) << right << databasePersons[i].signature << right << setw(20) << right << databasePersons[i].firstname << left << " " << right << databasePersons[i].lastname
+////             << right << setw(30) << right << heightString << endl;
 
-        cout << internal << sequence << "." << setw(20) << persons[i].signature << setw(20) << persons[i].firstname << " " << persons[i].lastname
-             << setw(50) << heightString << endl;
+        cout << internal
+             << left << setw(5)
+             << left << sequence
+             << left << setw(5)
+             << left << setw(15)
+             << left << databasePersons[i].signature
+             << left << setw(20)
+             << left << tempName
+             << right << setw(20)
+             << heightString << endl;
     }
 }
 
@@ -139,10 +158,10 @@ void addPerson() {
 
 void sortPersonsBy() {
     using namespace std;
-    SortType s;
-    int menuChoice = 0;
     std::vector<Person> persons = getPersonsFromDatabase();
 
+    SortType s;
+    int menuChoice = 0;
     cout << "Sort list by: " << "\n" << "1. Last name" << "\t" << "2. Signature" << "\t" << "3. Height" << endl;
     cin >> menuChoice;
     s = static_cast<SortType>(menuChoice);

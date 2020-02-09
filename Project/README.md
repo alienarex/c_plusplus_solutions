@@ -29,9 +29,10 @@ Moved `struct Person` related to person.h. Linked to `Prototype.h`, `constants.h
 
 
 ###Problems 
-Problems when sort the vector due to memory allocation issues. Tried to return a new (sorted) vector into same function where there already was an existing. 
+Problems when sort the vector due to memory issues. Passed variable by value and assign the sorted vector into same memory location. Fixed by passing variable as Reference.
 
 Not sure how to structure the code. Used to add a new file for every `class` and abstract and dived my code in a larger extend.
 
 ## Discussion
 Don't know where to put person struct. didn't work when was in own .cpp file. moved to .h file and works. 
+Tried to use constants when possible to ensure the consistency of the program.
