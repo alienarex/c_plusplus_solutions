@@ -42,7 +42,7 @@ std::string getSignature(const std::string &firstname, const std::string &lastna
     return signature;
 }
 
-v {
+std::string getSequentialNumber(int seqNumber) {
     return seqNumber > 9 ? std::to_string(seqNumber) : "0" + std::to_string(seqNumber);
 }
 

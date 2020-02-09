@@ -21,6 +21,17 @@ void mainMenu();
 void getPersons();
 
 /**
+ * Overloaded function to print list if paramester passed
+ * @param persons*/
+void getPersons(std::vector<Person> persons);
+
+/**
+ * Overloaded function to print one person
+ * @param person
+ */
+void getPersons(Person person);
+
+/**
  * Retrieves users info
  */
 void addPerson();
@@ -59,6 +70,11 @@ void createPerson(const std::string &firstname, const std::string &lastname, dou
  * delete one person from vector returns m
  */
 std::vector<Person> deletePerson();
+
+/**
+ * Menu for sort type. calls sortPersons
+ * */
+void sortPersonsBy();
 
 /**
  * Sorting vector. If last names same sorting by first name
