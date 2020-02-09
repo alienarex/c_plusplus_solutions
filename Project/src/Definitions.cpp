@@ -10,15 +10,11 @@
 #include <sstream>
 #include "person.h"
 
-void projectFunction() {
-    std::cout << "Project!" << std::endl;
-}
-
-
 void mainMenu() {
     using namespace std;
     size_t menuChoice;
     MainMenu input;
+    vector<Person> persons;
     do {
 
         cout << "====================== Main menu ======================" << endl;
@@ -102,9 +98,24 @@ std::vector<Person> deletePerson() {
 
 void getPersons() {
     using namespace std;
+    int choose = 0;
+    vector<Person> persons;
+    do {
+        cout << "Choose what database you want. \n 1. System default \n 2. Load your own" << endl;
+        cin >> choose;
 
-    int size = databasePersons.size();
-
+    } while (choose < 1 || choose > 2);
+    switch (choose) {
+        case 1:
+            persons = getPersonsFromDatabase();
+            break;
+        case 2:
+            persons = readFromFile();
+            break;
+        default:
+            cout << "Can't find anything...";
+    }
+    int size = persons.size();
 
     cout << "====================== NAME LIST ======================" << endl;
     cout << "Number of databasePersons in list: " << size << "\n" << endl;
@@ -118,19 +129,17 @@ void getPersons() {
          << right << setw(20)
          << right << "Length (m)" << endl;
 
-    for (int i = 0, sequence = 1; i < databasePersons.size(); i++, sequence++) {
-        std::string heightString = getPersonHeight(databasePersons[i].height);
-        std::string tempName = databasePersons[i].firstname + " " + databasePersons[i].lastname;
+    for (int i = 0, sequence = 1; i < persons.size(); i++, sequence++) {
+        std::string heightString = getPersonHeight(persons[i].height);
+        std::string tempName = persons[i].firstname + " " + persons[i].lastname;
 
-//        cout << internal << sequence << "." << setw(15) << right << databasePersons[i].signature << right << setw(20) << right << databasePersons[i].firstname << left << " " << right << databasePersons[i].lastname
-////             << right << setw(30) << right << heightString << endl;
 
         cout << internal
              << left << setw(5)
              << left << sequence
              << left << setw(5)
              << left << setw(15)
-             << left << databasePersons[i].signature
+             << left << persons[i].signature
              << left << setw(20)
              << left << tempName
              << right << setw(20)
@@ -221,16 +230,26 @@ std::string getSignatureForPerson() {
 
 void addPerson() {
     using namespace std;
-    string firstname, lastname;
-    double height;
-    cout << "insert your first name and press enter" << "\n" << "first name: " << endl;
-    cin >> firstname;
-    cout << "Last name; " << endl;
-    cin >> lastname;
-    cout << "Enter your height " << endl;
-    cin >> height;
+    std::vector<Person> persons;
+    char choice;
+    do {
 
-    createPerson(firstname, lastname, height);
+        string firstname, lastname;
+        double height;
+        cout << "insert first name and press enter" << "\n" << "first name: " << endl;
+        cin >> firstname;
+        cout << "Enter your height " << endl;
+        cin >> height;
+        cout << "Last name: " << endl;
+        cin >> lastname;
+
+        persons.push_back(createPerson(firstname, lastname, height, persons));
+        do {
+            cout << "Do you add another one (Y/N) ? " << endl;
+            cin >> choice;
+        } while (choice != 'Y' and choice != 'y' and choice != 'N' and choice != 'n');
+
+    } while (choice == 'y');
 
 }
 

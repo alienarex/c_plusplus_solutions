@@ -64,7 +64,7 @@ std::vector<Person> getPersonsFromDatabase();
 /**
  * @param firstname, lastname,height,  info supplied by user
  */
-void createPerson(const std::string &firstname, const std::string &lastname, double height);
+Person createPerson(const std::string &firstname, const std::string &lastname, double height, const std::vector<Person> &persons);
 
 /**
  * delete one person from vector returns m

@@ -88,9 +88,8 @@ std::vector<Person> getPersonsFromDatabase() {
 
 }
 
-void createPerson(const std::string &firstname, const std::string &lastname, double height) {
+Person createPerson(const std::string &firstname, const std::string &lastname, double height, const std::vector<Person>& persons) {
 
-    std::vector<Person> persons = getPersonsFromDatabase();
     int sameSignature = 0;
     Person p;
 
@@ -107,7 +106,7 @@ void createPerson(const std::string &firstname, const std::string &lastname, dou
     p.lastname = lastname;
     p.height = height;
     p.signature = sameSignature < 1 ? p.signature.append(getSequentialNumber()) : p.signature.append(getSequentialNumber(sameSignature)); // If signature exist a sequential number appends
-    persons.push_back(p);
+    return p;
 }
 
 std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType) {
@@ -155,23 +154,34 @@ std::vector<Person> readFromFile() {
 
     using namespace std;
     std::vector<Person> persons;
-    string fileName = "database";
+    string fileName;
+
+    cout << "Enter file name: ";
+    cin >> fileName;
+
     string line;
     ifstream infile("../../_Resources/" + fileName + ".txt");
-    Person person;
+    if (infile.is_open()) {
 
-    while (getline(infile, line)) {
-        size_t omitIndex = line.find_first_of(' ');
-        line = line.substr(omitIndex);
-        size_t charNumber1 = line.find(DELIM);
-        person.firstname = line.substr(0, charNumber1);
-        size_t charNumber2 = line.find(DELIM, charNumber1 + 1);
-        person.lastname = line.substr(charNumber1 + 1, charNumber2 - (charNumber1 + 1));
-        size_t charNumber3 = line.find(DELIM, charNumber2 + 1);
-        person.signature = line.substr(charNumber2 + 1, charNumber3 - (charNumber2 + 1));
-        size_t charNumber4 = line.find(DELIM, charNumber3 + 1);
-        person.height = stof(line.substr(charNumber3 + 1, charNumber4 - (charNumber3 + 1)));
-        persons.push_back(person);
+
+        Person person;
+
+        while (getline(infile, line)) {
+            size_t omitIndex = line.find_first_of(' ');
+            line = line.substr(omitIndex);
+            size_t charNumber1 = line.find(DELIM);
+            person.firstname = line.substr(0, charNumber1);
+            size_t charNumber2 = line.find(DELIM, charNumber1 + 1);
+            person.lastname = line.substr(charNumber1 + 1, charNumber2 - (charNumber1 + 1));
+            size_t charNumber3 = line.find(DELIM, charNumber2 + 1);
+            person.signature = line.substr(charNumber2 + 1, charNumber3 - (charNumber2 + 1));
+            size_t charNumber4 = line.find(DELIM, charNumber3 + 1);
+            person.height = stof(line.substr(charNumber3 + 1, charNumber4 - (charNumber3 + 1)));
+            persons.push_back(person);
+        }
+        return persons;
+    } else {
+        cout << "Unable to find your file";
+
     }
-    return persons;
 }
