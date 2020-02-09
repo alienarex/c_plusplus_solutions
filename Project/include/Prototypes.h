@@ -11,14 +11,19 @@
 void projectFunction();
 
 /**
+ * Foundation function printing menu where user chooses from.
+ */
+void mainMenu();
+
+/**
  * Print databasePersons to screen
  */
-void printPersons();
+void getPersons();
 
 /**
  * Retrieves users info
  */
-void inputMenu();
+void addPerson();
 
 /**
  * Creates a substring from 3 first char in first- and last-name. If length less then 3, x fill up to 3 char.
@@ -47,9 +52,11 @@ void createPerson(const std::string &firstname, const std::string &lastname, dou
 /**
  * delete one person from vector returns m
  */
-std::vector<Person> deletePerson(const std::string &signature);
+std::vector<Person> deletePerson();
 
-// UNDER DEV!
+/**
+ *Get enum SortType sort by firstname if lastname same.
+ */
 std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType);
 
 /**
@@ -60,5 +67,17 @@ std::vector<Person> randomizeDatabase(std::vector<Person> &persons);
 void writeToFile(std::vector<Person> &persons);
 
 std::vector<Person> readFromFile();
+
+void sortPersonsBy(std::vector<Person> persons);
+
+/**
+ * User input signature. Used in deletePerson
+ * */
+std::string getSignatureForPerson();
+
+/**
+ * Searches database for signature returns found record
+ */
+std::vector<Person> findPerson();
 
 #endif //DT018G_PROTOTYPES_H

@@ -7,6 +7,7 @@
 
 #include <string>
 #include "person.h"
+#include "Prototypes.h"
 
 const std::string DELIM = "|";
 
@@ -15,6 +16,16 @@ enum SortType {
     signature = 2,
     height = 3
 };
+enum MainMenu {
+    addRec = 1,
+    deleteRec,
+    findRec,
+    getList,
+    sortList,
+    randomizeList
+};
+
+std::vector<Person> getPersonsFromDatabase();
 
 const std::vector<Person> databasePersons;
 

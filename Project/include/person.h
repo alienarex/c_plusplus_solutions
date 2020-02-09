@@ -20,16 +20,9 @@ struct Person {
 
 };
 
-struct compareByFirstname {
-    inline bool operator()(const Person &struct1, const Person &struct2) {
-        return (struct1.firstname < struct2.firstname);
-    }
-};
-
-//TODO If last name is equal sort by first name
 struct compareByLastname {
     inline bool operator()(const Person &struct1, const Person &struct2) {
-        return  struct1.lastname == struct2.lastname ? struct1.firstname < struct2.firstname : struct1.lastname < struct2.lastname;
+        return struct1.lastname == struct2.lastname ? struct1.firstname < struct2.firstname : struct1.lastname < struct2.lastname;
 //        return (struct1.lastname < struct2.lastname);
     }
 };
