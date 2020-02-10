@@ -29,19 +29,20 @@ void mainMenu() {
                 addPerson();
                 break;
             case deleteRecord:
-                deletePerson();
+                getPersons(deletePerson(persons));
                 break;
             case findRecord:
                 findPerson();
                 break;
             case getRecords:
-                getPersons();
+                persons = getPersons(persons);
                 break;
             case sortRecords:
-                sortPersonsBy();
+                persons = getPersons(sortPersonsBy(persons));
                 break;
-//        case randomizeRecords:
-//            randomizeDatabase(getPersons());
+            case randomizeRecords:
+                persons = getPersons(randomizeDatabase(persons));
+                break;
 
         }
     } while (!system("pause"));
@@ -72,9 +73,9 @@ std::vector<Person> findPerson() {
     return persons;
 }
 
-std::vector<Person> deletePerson() {
+std::vector<Person> deletePerson(std::vector<Person> persons) {
     using namespace std;
-    std::vector<Person> persons = getPersonsFromDatabase();
+//    std::vector<Person> persons = getPersonsFromDatabase();
     string signature = getSignatureForPerson();
     bool deleted = false;
 
@@ -96,60 +97,30 @@ std::vector<Person> deletePerson() {
     return persons;
 }
 
-void getPersons() {
+std::vector<Person> getPersons(std::vector<Person> persons) {
     using namespace std;
-    int choose = 0;
-    vector<Person> persons;
-    do {
-        cout << "Choose what database you want. \n 1. System default \n 2. Load your own" << endl;
-        cin >> choose;
+//    vector<Person> persons;
+    if (persons.capacity() < 1) {
 
-    } while (choose < 1 || choose > 2);
-    switch (choose) {
-        case 1:
-            persons = getPersonsFromDatabase();
-            break;
-        case 2:
-            persons = readFromFile();
-            break;
-        default:
-            cout << "Can't find anything...";
+
+        int choose = 0;
+
+        do {
+            cout << "Choose what database you want. \n 1. System default \n 2. Load your own" << endl;
+            cin >> choose;
+
+        } while (choose < 1 || choose > 2);
+        switch (choose) {
+            case 1:
+                persons = getPersonsFromDatabase();
+                break;
+            case 2:
+                persons = readFromFile();
+                break;
+            default:
+                cout << "Can't find anything...";
+        }
     }
-    int size = persons.size();
-
-    cout << "====================== NAME LIST ======================" << endl;
-    cout << "Number of databasePersons in list: " << size << "\n" << endl;
-    cout << internal
-         << left << setw(5)
-         << "Nr"
-         << left << setw(15)
-         << left << "Sign"
-         << left << setw(20)
-         << "Name"
-         << right << setw(20)
-         << right << "Length (m)" << endl;
-
-    for (int i = 0, sequence = 1; i < persons.size(); i++, sequence++) {
-        std::string heightString = getPersonHeight(persons[i].height);
-        std::string tempName = persons[i].firstname + " " + persons[i].lastname;
-
-
-        cout << internal
-             << left << setw(5)
-             << left << sequence
-             << left << setw(5)
-             << left << setw(15)
-             << left << persons[i].signature
-             << left << setw(20)
-             << left << tempName
-             << right << setw(20)
-             << heightString << endl;
-    }
-}
-
-void getPersons(std::vector<Person> persons) {
-    using namespace std;
-
     int size = persons.size();
 
 
@@ -183,7 +154,9 @@ void getPersons(std::vector<Person> persons) {
              << right << setw(20)
              << heightString << endl;
     }
+    return persons;
 }
+
 
 void getPersons(Person person) {
     using namespace std;
@@ -202,9 +175,6 @@ void getPersons(Person person) {
 
     std::string heightString = getPersonHeight(person.height);
     std::string tempName = person.firstname + " " + person.lastname;
-
-//        cout << internal << sequence << "." << setw(15) << right << databasePersons[i].signature << right << setw(20) << right << databasePersons[i].firstname << left << " " << right << databasePersons[i].lastname
-////             << right << setw(30) << right << heightString << endl;
 
     cout << internal
          << left << setw(5)
@@ -229,6 +199,7 @@ std::string getSignatureForPerson() {
 
 
 void addPerson() {
+    //TODO fix so two names can be added
     using namespace std;
     std::vector<Person> persons;
     char choice;
@@ -241,7 +212,7 @@ void addPerson() {
         cout << "Enter your height " << endl;
         cin >> height;
         cout << "Last name: " << endl;
-        cin >> lastname;
+        getline(cin, lastname);
 
         persons.push_back(createPerson(firstname, lastname, height, persons));
         do {
@@ -253,9 +224,9 @@ void addPerson() {
 
 }
 
-void sortPersonsBy() {
+std::vector<Person> sortPersonsBy(std::vector<Person> persons) {
     using namespace std;
-    std::vector<Person> persons = getPersonsFromDatabase();
+//    std::vector<Person> persons = getPersonsFromDatabase();
 
     SortType s;
     int menuChoice = 0;
@@ -263,7 +234,5 @@ void sortPersonsBy() {
     cin >> menuChoice;
     s = static_cast<SortType>(menuChoice);
     persons = sortPersons(std::move(persons), s);
-    getPersons(persons);
-
-
+    return persons;
 }

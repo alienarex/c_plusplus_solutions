@@ -88,7 +88,7 @@ std::vector<Person> getPersonsFromDatabase() {
 
 }
 
-Person createPerson(const std::string &firstname, const std::string &lastname, double height, const std::vector<Person>& persons) {
+Person createPerson(const std::string &firstname, const std::string &lastname, double height, const std::vector<Person> &persons) {
 
     int sameSignature = 0;
     Person p;
@@ -126,11 +126,10 @@ std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType) 
     return persons;
 }
 
-std::vector<Person> randomizeDatabase(std::vector<Person> &persons) {
+std::vector<Person> randomizeDatabase(std::vector<Person> persons) {
 
     using namespace std;
     shuffle(begin(persons), end(persons), default_random_engine());
-
     return persons;
 }
 
@@ -161,7 +160,9 @@ std::vector<Person> readFromFile() {
 
     string line;
     ifstream infile("../../_Resources/" + fileName + ".txt");
-    if (infile.is_open()) {
+    if (!infile.is_open()) {
+        cout << "Unable to find your file";
+    } else {
 
 
         Person person;
@@ -179,9 +180,7 @@ std::vector<Person> readFromFile() {
             person.height = stof(line.substr(charNumber3 + 1, charNumber4 - (charNumber3 + 1)));
             persons.push_back(person);
         }
-        return persons;
-    } else {
-        cout << "Unable to find your file";
 
     }
+        return persons;
 }

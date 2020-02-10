@@ -17,13 +17,14 @@ void mainMenu();
 
 /**
  * Print databasePersons to screen
+ * @return std::vector<Person>
  */
-void getPersons();
+std::vector<Person> getPersons();
 
 /**
  * Overloaded function to print list if paramester passed
  * @param persons*/
-void getPersons(std::vector<Person> persons);
+std::vector<Person> getPersons(std::vector<Person> persons);
 
 /**
  * Overloaded function to print one person
@@ -67,14 +68,16 @@ std::vector<Person> getPersonsFromDatabase();
 Person createPerson(const std::string &firstname, const std::string &lastname, double height, const std::vector<Person> &persons);
 
 /**
- * delete one person from vector returns m
+ * delete one person from vector returns
+ * @param persons, the vector that record deletes from
+ * @return persons , vector with the removed record
  */
-std::vector<Person> deletePerson();
+std::vector<Person> deletePerson(std::vector<Person> persons);
 
 /**
  * Menu for sort type. calls sortPersons
  * */
-void sortPersonsBy();
+std::vector<Person> sortPersonsBy();
 
 /**
  * Sorting vector. If last names same sorting by first name
@@ -93,7 +96,7 @@ void writeToFile(std::vector<Person> &persons);
 
 std::vector<Person> readFromFile();
 
-void sortPersonsBy(std::vector<Person> persons);
+std::vector<Person> sortPersonsBy(std::vector<Person> persons);
 
 /**
  * User input signature. Used in deletePerson
