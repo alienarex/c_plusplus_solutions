@@ -78,7 +78,7 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
                 for (size_t j = nthNumber, counter = 0; j <= nthNumber; --j, counter++) {
 
 
-                    size_t returnValueFibonacciRecursion = fibonacciRecursion(j);
+                    size_t returnValueFibonacciRecursion = fibonacciRecursion(0);
                     stat.values.push_back(returnValueFibonacciRecursion);
 
                     if (counter % 5 == 0) {
@@ -115,13 +115,13 @@ void outPutFibonacciValues(std::vector<Stats> stats) {
     }
 }
 
-/*  */
+/* Recursion == calls itself (drilled down) until the number is 1 or 0.
+ * The values are then "pushed" and added through the function calls adding either 0 or 1   */
 long_type fibonacciRecursion(size_t nthNumber) { // if nthNumber == 10.
     if (nthNumber <= 1)
         return nthNumber;
-    // the function calls it self to return value1 and value2.
-    return fibonacciRecursion(nthNumber - 1) // This function call will be happen 10 times
-           + fibonacciRecursion(nthNumber - 2); // This function call will happen 5 times
+    return fibonacciRecursion(nthNumber - 1)
+           + fibonacciRecursion(nthNumber - 2);
 }
 
 void mainMenu() {

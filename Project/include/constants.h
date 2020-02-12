@@ -16,6 +16,7 @@ enum SortType {
     signature = 2,
     height = 3
 };
+
 enum MainMenu {
     addRecord = 1,
     deleteRecord,
@@ -27,11 +28,10 @@ enum MainMenu {
     loadRecords
 };
 
-std::vector<Person> getPersonsFromDatabase();
-
-const std::vector<Person> databasePersons =
-        {
-                getPersonsFromDatabase()
-        };
+/**
+ * Default system vector
+ * @return std::vector<Person>
+ * */
+std::vector<Person> systemDefaultDatabase();
 
 #endif //DT018G_CONSTANTS_H

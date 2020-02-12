@@ -29,20 +29,25 @@ void mainMenu() {
                 addPerson();
                 break;
             case deleteRecord:
-                getPersons(deletePerson(persons));
+                persons = printPersons(deletePerson(persons));
                 break;
             case findRecord:
                 findPerson();
                 break;
             case getRecords:
-                persons = getPersons(persons);
+                persons = printPersons(persons);
                 break;
             case sortRecords:
-                persons = getPersons(sortPersonsBy(persons));
+                persons = printPersons(sortPersonsBy(persons));
                 break;
             case randomizeRecords:
-                persons = getPersons(randomizeDatabase(persons));
+                persons = printPersons(randomizeDatabase(persons));
                 break;
+            case saveRecords:
+                writeToFile(persons);
+                break;
+            case loadRecords:
+                persons = printPersons(readFromFile());
 
         }
     } while (!system("pause"));
@@ -52,17 +57,17 @@ void mainMenu() {
 
 std::vector<Person> findPerson() {
     using namespace std;
-    std::vector<Person> persons = getPersonsFromDatabase();
+    std::vector<Person> persons = systemDefaultDatabase();
     string signature = getSignatureForPerson();
 
     bool found;
 
     auto itEnd = persons.end();
 
-    for (auto pers:persons) {
+    for (const auto &pers:persons) {
 
         if (pers.signature == signature) {
-            getPersons(pers);
+            printPersons(pers);
             found = true;
         }
     }
@@ -75,19 +80,28 @@ std::vector<Person> findPerson() {
 
 std::vector<Person> deletePerson(std::vector<Person> persons) {
     using namespace std;
-//    std::vector<Person> persons = getPersonsFromDatabase();
     string signature = getSignatureForPerson();
     bool deleted = false;
+    char choice;
 
     auto itEnd = persons.end();
 
     for (auto it = persons.begin(); it != persons.end(); ++it) {
 
         if (it->signature == signature) {
-            cout << it->signature << setw(20) << it->firstname << " " << it->lastname << endl;
-            persons.erase(it);
+
+            do {
+                cout << "Delete person (Y/N)? ";
+                cin >> choice;
+                choice = tolower(choice);
+                cout << it->signature << setw(20) << it->firstname << " " << it->lastname << endl;
+                if (choice == 'y') {
+                    persons.erase(it);
+                    deleted = true;
+
+                }
+            } while (choice != 'Y' and choice != 'y' and choice != 'N' and choice != 'n');
             it--;
-            deleted = true;
         }
     }
     if (!deleted) {
@@ -97,9 +111,8 @@ std::vector<Person> deletePerson(std::vector<Person> persons) {
     return persons;
 }
 
-std::vector<Person> getPersons(std::vector<Person> persons) {
+std::vector<Person> printPersons(std::vector<Person> persons) {
     using namespace std;
-//    vector<Person> persons;
     if (persons.capacity() < 1) {
 
 
@@ -112,7 +125,7 @@ std::vector<Person> getPersons(std::vector<Person> persons) {
         } while (choose < 1 || choose > 2);
         switch (choose) {
             case 1:
-                persons = getPersonsFromDatabase();
+                persons = systemDefaultDatabase();
                 break;
             case 2:
                 persons = readFromFile();
@@ -140,9 +153,6 @@ std::vector<Person> getPersons(std::vector<Person> persons) {
         std::string heightString = getPersonHeight(persons[i].height);
         std::string tempName = persons[i].firstname + " " + persons[i].lastname;
 
-//        cout << internal << sequence << "." << setw(15) << right << databasePersons[i].signature << right << setw(20) << right << databasePersons[i].firstname << left << " " << right << databasePersons[i].lastname
-////             << right << setw(30) << right << heightString << endl;
-
         cout << internal
              << left << setw(5)
              << left << sequence
@@ -157,8 +167,7 @@ std::vector<Person> getPersons(std::vector<Person> persons) {
     return persons;
 }
 
-
-void getPersons(Person person) {
+void printPersons(Person person) {
     using namespace std;
 
     cout << "====================== NAME LIST ======================" << endl;
@@ -197,7 +206,6 @@ std::string getSignatureForPerson() {
 
 }
 
-
 void addPerson() {
     //TODO fix so two names can be added
     using namespace std;
@@ -226,7 +234,7 @@ void addPerson() {
 
 std::vector<Person> sortPersonsBy(std::vector<Person> persons) {
     using namespace std;
-//    std::vector<Person> persons = getPersonsFromDatabase();
+//    std::vector<Person> persons = systemDefaultDatabase();
 
     SortType s;
     int menuChoice = 0;
@@ -234,5 +242,66 @@ std::vector<Person> sortPersonsBy(std::vector<Person> persons) {
     cin >> menuChoice;
     s = static_cast<SortType>(menuChoice);
     persons = sortPersons(std::move(persons), s);
+    return persons;
+}
+
+void writeToFile(std::vector<Person> &persons) {
+// Ref: Erik Ström Lecture Miun 2020
+    using namespace std;
+    string fileName = "database";
+    ofstream outputFile("../../_Resources/" + fileName + ".txt");
+
+    size_t idx = persons.size();
+    for (auto &person : persons)
+
+        outputFile << --idx << ": " << person.firstname << DELIM << person.lastname << DELIM << person.signature << DELIM << person.height << endl;
+
+    outputFile.close();
+
+}
+
+std::string getFileNameFromUser() {
+    using namespace std;
+    std::vector<Person> persons;
+    string fileName;
+
+    cout << "Enter file name: ";
+    cin >> fileName;
+    return fileName;
+}
+
+std::vector<Person> readFromFile() {
+
+    using namespace std;
+    std::vector<Person> persons;
+    string fileName = getFileNameFromUser();
+
+//    cout << "Enter file name: ";
+//    cin >> fileName;
+
+    string line;
+    ifstream infile("../../_Resources/" + fileName + ".txt");
+    if (!infile.is_open()) {
+        cout << "Unable to find your file";
+    } else {
+
+
+        Person person;
+
+        while (getline(infile, line)) {
+            size_t omitIndex = line.find_first_of(' ');
+            line = line.substr(omitIndex);
+            size_t charNumber1 = line.find(DELIM);
+            person.firstname = line.substr(0, charNumber1);
+            size_t charNumber2 = line.find(DELIM, charNumber1 + 1);
+            person.lastname = line.substr(charNumber1 + 1, charNumber2 - (charNumber1 + 1));
+            size_t charNumber3 = line.find(DELIM, charNumber2 + 1);
+            person.signature = line.substr(charNumber2 + 1, charNumber3 - (charNumber2 + 1));
+            size_t charNumber4 = line.find(DELIM, charNumber3 + 1);
+            person.height = stof(line.substr(charNumber3 + 1, charNumber4 - (charNumber3 + 1)));
+            persons.push_back(person);
+        }
+
+    }
     return persons;
 }

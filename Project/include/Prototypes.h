@@ -6,31 +6,23 @@
 #include "constants.h"
 #include "person.h"
 
-
-// Arbitrary function prototype, replace with your own prototype(s)
-void projectFunction();
-
 /**
  * Foundation function printing menu where user chooses from.
  */
 void mainMenu();
 
 /**
- * Print databasePersons to screen
+ * Print list
+ * @param persons
  * @return std::vector<Person>
- */
-std::vector<Person> getPersons();
+ * */
+std::vector<Person> printPersons(std::vector<Person> persons);
 
 /**
- * Overloaded function to print list if paramester passed
- * @param persons*/
-std::vector<Person> getPersons(std::vector<Person> persons);
-
-/**
- * Overloaded function to print one person
+ * Print one person
  * @param person
  */
-void getPersons(Person person);
+void printPersons(Person person);
 
 /**
  * Retrieves users info
@@ -58,10 +50,6 @@ std::string getSequentialNumber(int seqNumber = 1);
  */
 std::string getPersonHeight(double height);
 
-
-/**Gets the list of persons from database*/
-std::vector<Person> getPersonsFromDatabase();
-
 /**
  * @param firstname, lastname,height,  info supplied by user
  */
@@ -75,9 +63,11 @@ Person createPerson(const std::string &firstname, const std::string &lastname, d
 std::vector<Person> deletePerson(std::vector<Person> persons);
 
 /**
- * Menu for sort type. calls sortPersons
+ * Sets type of sort
+ * @param persons
+ * @return std::vector<Person>
  * */
-std::vector<Person> sortPersonsBy();
+std::vector<Person> sortPersonsBy(std::vector<Person> persons);
 
 /**
  * Sorting vector. If last names same sorting by first name
@@ -92,11 +82,15 @@ std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType);
  */
 std::vector<Person> randomizeDatabase(std::vector<Person> persons);
 
+/**
+ * @param persons
+ * */
 void writeToFile(std::vector<Person> &persons);
 
+/**
+ * @return std::vector<Person>
+ */
 std::vector<Person> readFromFile();
-
-std::vector<Person> sortPersonsBy(std::vector<Person> persons);
 
 /**
  * User input signature. Used in deletePerson

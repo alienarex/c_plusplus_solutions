@@ -36,3 +36,5 @@ Not sure how to structure the code. Used to add a new file for every `class` and
 ## Discussion
 Don't know where to put person struct. didn't work when was in own .cpp file. moved to .h file and works. 
 Tried to use constants when possible to ensure the consistency of the program.
+In submission description there was a requirement of a `const std::vector<Person>` in constants.h. I had a hard time working with that since I couldn't find any good way of define it, and as far as I understood there was not good practice to do so either. 
+So my solution is to pass the `std::vector<Person> persons` throughout the `mainMenu()`. By doing that you can either use the system default or load from file without need for further checks.

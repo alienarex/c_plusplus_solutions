@@ -13,7 +13,6 @@
 #include <sstream>
 #include "person.h"
 
-
 std::string convertStringToLowerCase(std::string name) {
     std::string stringLowerCase;
 
@@ -53,7 +52,7 @@ std::string getPersonHeight(double height) { // No need? It doesn't matter how t
     return temp;
 }
 
-std::vector<Person> getPersonsFromDatabase() {
+std::vector<Person> systemDefaultDatabase() {
 
     std::vector<Person> newDBPersons;
     Person person;
@@ -113,7 +112,7 @@ std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType) 
     using namespace std;
     switch (sortType) {
         case lastname:
-            sort(persons.begin(), persons.end(), compareByLastname());
+            sort(persons.begin(), persons.end(), compareByLastname()); // returns vector sorted by first name if last name is identical
             break;
         case signature:
             sort(persons.begin(), persons.end(), compareBySignature());
@@ -134,53 +133,5 @@ std::vector<Person> randomizeDatabase(std::vector<Person> persons) {
 }
 
 
-void writeToFile(std::vector<Person> &persons) {
-// Ref: Erik Ström Lecture Miun 2020
-    using namespace std;
-    string fileName = "database";
-    ofstream outputFile("../../_Resources/" + fileName + ".txt");
-
-    size_t idx = persons.size();
-    for (auto &person : persons)
-
-        outputFile << --idx << ": " << person.firstname << DELIM << person.lastname << DELIM << person.signature << DELIM << person.height << endl;
-
-    outputFile.close();
-
-}
-
-std::vector<Person> readFromFile() {
-
-    using namespace std;
-    std::vector<Person> persons;
-    string fileName;
-
-    cout << "Enter file name: ";
-    cin >> fileName;
-
-    string line;
-    ifstream infile("../../_Resources/" + fileName + ".txt");
-    if (!infile.is_open()) {
-        cout << "Unable to find your file";
-    } else {
 
 
-        Person person;
-
-        while (getline(infile, line)) {
-            size_t omitIndex = line.find_first_of(' ');
-            line = line.substr(omitIndex);
-            size_t charNumber1 = line.find(DELIM);
-            person.firstname = line.substr(0, charNumber1);
-            size_t charNumber2 = line.find(DELIM, charNumber1 + 1);
-            person.lastname = line.substr(charNumber1 + 1, charNumber2 - (charNumber1 + 1));
-            size_t charNumber3 = line.find(DELIM, charNumber2 + 1);
-            person.signature = line.substr(charNumber2 + 1, charNumber3 - (charNumber2 + 1));
-            size_t charNumber4 = line.find(DELIM, charNumber3 + 1);
-            person.height = stof(line.substr(charNumber3 + 1, charNumber4 - (charNumber3 + 1)));
-            persons.push_back(person);
-        }
-
-    }
-        return persons;
-}
