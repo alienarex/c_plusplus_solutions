@@ -92,11 +92,13 @@ Person createPerson(const std::string &firstname, const std::string &lastname, d
     int sameSignature = 0;
     Person p;
 
-    p.signature = getSignature(firstname, lastname);
+    std::string signFirstPart = getSignature(firstname, lastname);
 
-    // Counting identical signatures
+    // Counting signatures identical letters
     for (auto &person : persons) {
-        if (person.signature == p.signature) {
+
+        auto getfirstPartOfSignature = person.signature.substr(0, 6);
+        if (getfirstPartOfSignature == p.signature) {
             sameSignature++;
         }
     }
@@ -104,7 +106,7 @@ Person createPerson(const std::string &firstname, const std::string &lastname, d
     p.firstname = firstname;
     p.lastname = lastname;
     p.height = height;
-    p.signature = sameSignature < 1 ? p.signature.append(getSequentialNumber()) : p.signature.append(getSequentialNumber(sameSignature)); // If signature exist a sequential number appends
+    p.signature = sameSignature < 1 ? signFirstPart.append(getSequentialNumber()) : signFirstPart.append(getSequentialNumber(sameSignature)); // If signature exist a sequential number appends
     return p;
 }
 

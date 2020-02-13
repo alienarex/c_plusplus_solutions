@@ -25,9 +25,12 @@ std::vector<Person> printPersons(std::vector<Person> persons);
 void printPersons(Person person);
 
 /**
+ * I
  * Retrieves users info
+ * @param persons
+ * @return persons , created person(s) added to vector
  */
-void addPerson();
+std::vector<Person>  addPerson(std::vector<Person> persons);
 
 /**
  * Creates a substring from 3 first char in first- and last-name. If length less then 3, x fill up to 3 char.
@@ -83,6 +86,12 @@ std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType);
 std::vector<Person> randomizeDatabase(std::vector<Person> persons);
 
 /**
+ * Ask user for filename.
+ * @return std::string
+ */
+std::string getFileNameFromUser();
+
+/**
  * @param persons
  * */
 void writeToFile(std::vector<Person> &persons);
@@ -101,5 +110,10 @@ std::string getSignatureForPerson();
  * Searches database for signature returns found record
  */
 std::vector<Person> findPerson();
+
+/**
+ * @return bool
+ * */
+bool inputValidation();
 
 #endif //DT018G_PROTOTYPES_H

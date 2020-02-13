@@ -26,7 +26,7 @@ void mainMenu() {
 
         switch (input) {
             case addRecord:
-                addPerson();
+                addPerson(persons);
                 break;
             case deleteRecord:
                 persons = printPersons(deletePerson(persons));
@@ -55,61 +55,6 @@ void mainMenu() {
 
 }
 
-std::vector<Person> findPerson() {
-    using namespace std;
-    std::vector<Person> persons = systemDefaultDatabase();
-    string signature = getSignatureForPerson();
-
-    bool found;
-
-    auto itEnd = persons.end();
-
-    for (const auto &pers:persons) {
-
-        if (pers.signature == signature) {
-            printPersons(pers);
-            found = true;
-        }
-    }
-    if (!found) {
-        cout << "No person with the signature " << signature << " was found" << endl;
-    }
-
-    return persons;
-}
-
-std::vector<Person> deletePerson(std::vector<Person> persons) {
-    using namespace std;
-    string signature = getSignatureForPerson();
-    bool deleted = false;
-    char choice;
-
-    auto itEnd = persons.end();
-
-    for (auto it = persons.begin(); it != persons.end(); ++it) {
-
-        if (it->signature == signature) {
-
-            do {
-                cout << "Delete person (Y/N)? ";
-                cin >> choice;
-                choice = tolower(choice);
-                cout << it->signature << setw(20) << it->firstname << " " << it->lastname << endl;
-                if (choice == 'y') {
-                    persons.erase(it);
-                    deleted = true;
-
-                }
-            } while (choice != 'Y' and choice != 'y' and choice != 'N' and choice != 'n');
-            it--;
-        }
-    }
-    if (!deleted) {
-        cout << "No person with the signature " << signature << " was found" << endl;
-    }
-
-    return persons;
-}
 
 std::vector<Person> printPersons(std::vector<Person> persons) {
     using namespace std;
@@ -197,30 +142,106 @@ void printPersons(Person person) {
          << heightString << endl;
 }
 
+std::vector<Person> sortPersonsBy(std::vector<Person> persons) {
+    using namespace std;
+//    std::vector<Person> persons = systemDefaultDatabase();
+
+    SortType s;
+    int menuChoice = 0;
+    cout << "Sort list by: " << "\n" << "1. Last name" << "\t" << "2. Signature" << "\t" << "3. Height" << endl;
+    do {
+        cin >> menuChoice;
+
+    } while (!inputValidation());
+
+    s = static_cast<SortType>(menuChoice);
+    persons = sortPersons(std::move(persons), s);
+    return persons;
+}
+
 std::string getSignatureForPerson() {
     using namespace std;
     string signature;
-    cout << "Write Signature for the person you search: " << endl;
-    cin >> signature;
+    do {
+        cout << "Write Signature for the person you search: " << endl;
+        cin >> signature;
+
+    } while (!inputValidation());
     return signature;
 
 }
 
-void addPerson() {
-    //TODO fix so two names can be added
+std::vector<Person> findPerson() {
     using namespace std;
-    std::vector<Person> persons;
+    std::vector<Person> persons = systemDefaultDatabase();
+    string signature = getSignatureForPerson();
+
+    bool found;
+
+    auto itEnd = persons.end();
+
+    for (const auto &pers:persons) {
+
+        if (pers.signature == signature) {
+            printPersons(pers);
+            found = true;
+        }
+    }
+    if (!found) {
+        cout << "No person with the signature " << signature << " was found" << endl;
+    }
+
+    return persons;
+}
+
+std::vector<Person> deletePerson(std::vector<Person> persons) {
+    using namespace std;
+    string signature = getSignatureForPerson();
+    bool deleted = false;
+    char choice;
+
+    auto itEnd = persons.end();
+
+    for (auto it = persons.begin(); it != persons.end(); ++it) {
+
+        if (it->signature == signature) {
+
+            do {
+                cout << "Delete person (Y/N)? ";
+                cin >> choice;
+                choice = tolower(choice);
+                cout << it->signature << setw(20) << it->firstname << " " << it->lastname << endl;
+                if (choice == 'y') {
+                    persons.erase(it);
+                    deleted = true;
+
+                }
+            } while (choice != 'Y' and choice != 'y' and choice != 'N' and choice != 'n');
+            it--;
+        }
+    }
+    if (!deleted) {
+        cout << "No person with the signature " << signature << " was found" << endl;
+    }
+
+    return persons;
+}
+
+std::vector<Person> addPerson(std::vector<Person> persons) {
+    using namespace std;
+//    std::vector<Person> persons;
     char choice;
     do {
-
+        cin.clear();
+        cin.sync();
         string firstname, lastname;
         double height;
         cout << "insert first name and press enter" << "\n" << "first name: " << endl;
-        cin >> firstname;
-        cout << "Enter your height " << endl;
-        cin >> height;
+        getline(cin, firstname);
         cout << "Last name: " << endl;
         getline(cin, lastname);
+        cout << "Enter your height " << endl;
+        cin >> height;
 
         persons.push_back(createPerson(firstname, lastname, height, persons));
         do {
@@ -229,35 +250,7 @@ void addPerson() {
         } while (choice != 'Y' and choice != 'y' and choice != 'N' and choice != 'n');
 
     } while (choice == 'y');
-
-}
-
-std::vector<Person> sortPersonsBy(std::vector<Person> persons) {
-    using namespace std;
-//    std::vector<Person> persons = systemDefaultDatabase();
-
-    SortType s;
-    int menuChoice = 0;
-    cout << "Sort list by: " << "\n" << "1. Last name" << "\t" << "2. Signature" << "\t" << "3. Height" << endl;
-    cin >> menuChoice;
-    s = static_cast<SortType>(menuChoice);
-    persons = sortPersons(std::move(persons), s);
     return persons;
-}
-
-void writeToFile(std::vector<Person> &persons) {
-// Ref: Erik Ström Lecture Miun 2020
-    using namespace std;
-    string fileName = "database";
-    ofstream outputFile("../../_Resources/" + fileName + ".txt");
-
-    size_t idx = persons.size();
-    for (auto &person : persons)
-
-        outputFile << --idx << ": " << person.firstname << DELIM << person.lastname << DELIM << person.signature << DELIM << person.height << endl;
-
-    outputFile.close();
-
 }
 
 std::string getFileNameFromUser() {
@@ -268,6 +261,21 @@ std::string getFileNameFromUser() {
     cout << "Enter file name: ";
     cin >> fileName;
     return fileName;
+}
+
+void writeToFile(std::vector<Person> &persons) {
+// Ref: Erik Ström Lecture Miun 2020
+    using namespace std;
+    string fileName = getFileNameFromUser();
+    ofstream outputFile("../../_Resources/" + fileName + ".txt");
+
+    size_t idx = persons.size();
+    for (auto &person : persons)
+
+        outputFile << --idx << ": " << person.firstname << DELIM << person.lastname << DELIM << person.signature << DELIM << person.height << endl;
+
+    outputFile.close();
+
 }
 
 std::vector<Person> readFromFile() {
@@ -304,4 +312,24 @@ std::vector<Person> readFromFile() {
 
     }
     return persons;
+}
+
+
+bool inputValidation() {
+    using namespace std;
+
+    if (cin.fail()) { // the input couldn't be cast as integer value
+
+        // clear failure state
+        cin.clear();
+
+        // discard remaining unprocessed characters in the input stream
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        cout << "Use only numeric values with a maximum of 2 147 483 647" << endl; // Error message. Helps user to correct it's input
+
+        return false;
+
+
+    } else return true;
 }
