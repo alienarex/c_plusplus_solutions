@@ -13,26 +13,27 @@
 void mainMenu() {
     using namespace std;
     size_t menuChoice;
+    size_t choice;
     MainMenu input;
     vector<Person> persons;
     do {
 
-        cout << "====================== Main menu ======================" << endl;
+        cout << "                                ====================== Main menu ======================" << endl; // #!@ didn't get it to work with setw();
 
-        cout << "1. Add " << DELIM << " 2. Delete " << DELIM << " 3. Find record " << DELIM << " 4. Get all " << DELIM << " 5. Sort database " << DELIM << " 6. Randomize database " << DELIM << " 7. Save records " <<
+        cout << setw(10) << "1. Add " << DELIM << " 2. Delete " << DELIM << " 3. Find record " << DELIM << " 4. Get all " << DELIM << " 5. Sort database " << DELIM << " 6. Randomize database " << DELIM << " 7. Save records " <<
              DELIM << " 8. Load database " << endl;
         cin >> menuChoice;
         input = static_cast<MainMenu>(menuChoice);
 
         switch (input) {
             case addRecord:
-                addPerson(persons);
+                persons = addPerson(persons);
                 break;
             case deleteRecord:
                 persons = printPersons(deletePerson(persons));
                 break;
             case findRecord:
-                findPerson();
+                persons = findPerson(persons);
                 break;
             case getRecords:
                 persons = printPersons(persons);
@@ -48,13 +49,16 @@ void mainMenu() {
                 break;
             case loadRecords:
                 persons = printPersons(readFromFile());
-
         }
-    } while (!system("pause"));
+        do {
 
+            cout << setw(10) << "\n What do you want to do? \n 1. Back to menu \n 2. Exit? " << endl;
+            cin >> choice;
 
+        } while (!inputValidation() || choice <= 0 || choice > 2);
+
+    } while (choice == 1);
 }
-
 
 std::vector<Person> printPersons(std::vector<Person> persons) {
     using namespace std;
@@ -95,7 +99,7 @@ std::vector<Person> printPersons(std::vector<Person> persons) {
          << right << "Length (m)" << endl;
 
     for (int i = 0, sequence = 1; i < persons.size(); i++, sequence++) {
-        std::string heightString = getPersonHeight(persons[i].height);
+
         std::string tempName = persons[i].firstname + " " + persons[i].lastname;
 
         cout << internal
@@ -107,7 +111,7 @@ std::vector<Person> printPersons(std::vector<Person> persons) {
              << left << setw(20)
              << left << tempName
              << right << setw(20)
-             << heightString << endl;
+             << fixed << setprecision(2) << persons[i].height << endl;
     }
     return persons;
 }
@@ -127,7 +131,6 @@ void printPersons(Person person) {
          << right << setw(20)
          << right << "Length (m)" << endl;
 
-    std::string heightString = getPersonHeight(person.height);
     std::string tempName = person.firstname + " " + person.lastname;
 
     cout << internal
@@ -139,7 +142,8 @@ void printPersons(Person person) {
          << left << setw(20)
          << left << tempName
          << right << setw(20)
-         << heightString << endl;
+         << fixed << setprecision(2) << person.height << endl;
+
 }
 
 std::vector<Person> sortPersonsBy(std::vector<Person> persons) {
@@ -161,24 +165,26 @@ std::vector<Person> sortPersonsBy(std::vector<Person> persons) {
 
 std::string getSignatureForPerson() {
     using namespace std;
+    cin.clear();
+    cin.sync();
     string signature;
-    do {
-        cout << "Write Signature for the person you search: " << endl;
-        cin >> signature;
+    cout << "Write Signature for the person you search: " << endl;
+    getline(cin, signature);
 
-    } while (!inputValidation());
     return signature;
 
 }
 
-std::vector<Person> findPerson() {
+std::vector<Person> findPerson(std::vector<Person> persons) {
     using namespace std;
-    std::vector<Person> persons = systemDefaultDatabase();
+    if (persons.capacity() < 1) {
+        persons = systemDefaultDatabase();
+    }
     string signature = getSignatureForPerson();
 
     bool found;
 
-    auto itEnd = persons.end();
+//    auto itEnd = persons.end();
 
     for (const auto &pers:persons) {
 
@@ -221,7 +227,7 @@ std::vector<Person> deletePerson(std::vector<Person> persons) {
         }
     }
     if (!deleted) {
-        cout << "No person with the signature " << signature << " was found" << endl;
+        cout << "No person with the signature " << signature << " was found" << "\n" << "This is available records; \n" << endl;
     }
 
     return persons;
@@ -240,10 +246,16 @@ std::vector<Person> addPerson(std::vector<Person> persons) {
         getline(cin, firstname);
         cout << "Last name: " << endl;
         getline(cin, lastname);
-        cout << "Enter your height " << endl;
-        cin >> height;
+        do {
+            cout << "Enter your height " << endl;
+            cin >> height;
 
-        persons.push_back(createPerson(firstname, lastname, height, persons));
+        } while (!inputValidation());
+
+
+        Person p = createPerson(firstname, lastname, height, persons);
+        persons.push_back(p);
+        cout << setw(10) << p.firstname << " " << p.lastname << " with the height " << fixed << setprecision(2) << p.height << " added " << endl;
         do {
             cout << "Do you add another one (Y/N) ? " << endl;
             cin >> choice;
@@ -257,9 +269,10 @@ std::string getFileNameFromUser() {
     using namespace std;
     std::vector<Person> persons;
     string fileName;
-
+    cin.clear();
+    cin.sync();
     cout << "Enter file name: ";
-    cin >> fileName;
+    getline(cin, fileName);
     return fileName;
 }
 
@@ -326,7 +339,7 @@ bool inputValidation() {
         // discard remaining unprocessed characters in the input stream
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        cout << "Use only numeric values with a maximum of 2 147 483 647" << endl; // Error message. Helps user to correct it's input
+        cout << "Use only numeric values" << endl; // Error message. Helps user to correct it's input
 
         return false;
 

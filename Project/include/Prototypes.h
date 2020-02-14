@@ -30,7 +30,7 @@ void printPersons(Person person);
  * @param persons
  * @return persons , created person(s) added to vector
  */
-std::vector<Person>  addPerson(std::vector<Person> persons);
+std::vector<Person> addPerson(std::vector<Person> persons);
 
 /**
  * Creates a substring from 3 first char in first- and last-name. If length less then 3, x fill up to 3 char.
@@ -86,7 +86,7 @@ std::vector<Person> sortPersons(std::vector<Person> persons, SortType sortType);
 std::vector<Person> randomizeDatabase(std::vector<Person> persons);
 
 /**
- * Ask user for filename.
+ * Ask for filename
  * @return std::string
  */
 std::string getFileNameFromUser();
@@ -109,7 +109,7 @@ std::string getSignatureForPerson();
 /**
  * Searches database for signature returns found record
  */
-std::vector<Person> findPerson();
+std::vector<Person> findPerson(std::vector<Person>);
 
 /**
  * @return bool

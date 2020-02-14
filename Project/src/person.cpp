@@ -45,13 +45,6 @@ std::string getSequentialNumber(int seqNumber) {
     return seqNumber > 9 ? std::to_string(seqNumber) : "0" + std::to_string(seqNumber);
 }
 
-std::string getPersonHeight(double height) { // No need? It doesn't matter how the values is stored as long as the output shows with two decimals
-    std::string temp = std::to_string(height);
-    auto pos = temp.find_first_of('.');
-    temp = temp.erase(pos + 3);
-    return temp;
-}
-
 std::vector<Person> systemDefaultDatabase() {
 
     std::vector<Person> newDBPersons;
@@ -94,7 +87,7 @@ Person createPerson(const std::string &firstname, const std::string &lastname, d
 
     std::string signFirstPart = getSignature(firstname, lastname);
 
-    // Counting signatures identical letters
+    // Checks if the letter combination already exists in database
     for (auto &person : persons) {
 
         auto getfirstPartOfSignature = person.signature.substr(0, 6);
