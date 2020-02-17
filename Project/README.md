@@ -80,4 +80,4 @@ And due to my reluctance to global variables, my solution is instead a function 
 As a way of mimic the `const std::vector<Person>` required in the submission description, I choose to pass the vector though `mainMenu()`. This is probably not the best way of doing it, 
 due to eventual conflicts if using pointers, const, passing as reference or value. 
 
-Also, .gitignore are modified in a way where it omits the .txt files, making it possible to add those in a commit if that is what one wants.
+Also, .gitignore are modified in a way where it should omits the .txt files, making it possible to add those in a commit if that is what one wants.

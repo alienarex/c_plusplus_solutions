@@ -18,7 +18,7 @@ void mainMenu() {
     vector<Person> persons;
     do {
 
-        cout << "                                ====================== Main menu ======================" << endl; // #!@ didn't get it to work with setw();
+        cout << setw(100) << "====================== Main menu ======================" << endl; // #!@ didn't get it to work with setw();
 
         cout << setw(10) << "1. Add " << DELIM << " 2. Delete " << DELIM << " 3. Find record " << DELIM << " 4. Get all " << DELIM << " 5. Sort database " << DELIM << " 6. Randomize database " << DELIM << " 7. Save records " <<
              DELIM << " 8. Load database " << endl;
