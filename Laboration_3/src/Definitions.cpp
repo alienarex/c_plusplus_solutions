@@ -6,14 +6,16 @@
 
 long_type fibonacciIteration(size_t nthNumber) {
     size_t x = 0, y = 1, z = 0;
-    // iterates through the value and moves the values around as visualized in the comments beneath
+    /* z stores the last two values in the sequence, started with 0 and 1. The smallest components in the sequence.
+     * the second value in sequence assigns to x. This is the lowest value passed to next iteration and is the "base" for next calculation. This value will disappear in next iteration.
+     * the sum of current calculation is assigned to y, which is the highest value in current iteration. This value will exist in next iteration and used as "base" for future calculations */
     for (size_t i = 0; i < nthNumber; i++) {
-        z = x + y; // assign value to z iteration EXAMPLE: 1. 10 = 5 + 5; iteration 2. 15 = 5 + 10;
-        x = y; // The value y is assign to x. These values are then summed to z. EXAMPLE: iteration 1.  5 = 5; iteration 2. 10 = 10;
-        y = z; // EXAMPLE: iteration 1. 10 = 10; iteration 2. 15 = 15;
+        z = x + y;
+        x = y;
+        y = z;
     }
 
-    return x;// Would return 10 if above EXAMPLE: is followed.
+    return x;
 }
 
 Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point startTime) {
@@ -94,7 +96,6 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
                         }
                         std::cout << stat.type << std::setw(3) << j << "th " << std::setw(justify) << stat.values[counter] << std::endl;
                     }
-
                 }
                 stat = setStatsTiming(stat, startTime);
 
