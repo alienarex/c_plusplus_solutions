@@ -66,7 +66,7 @@ As a consequence I poke around in code that actually worked.
 
 Programming is problem solving and this assignment was fun to work with, even though, doing the same assigment again, I'd might use some different approaches in some cases.
 
-The program fulfills the requirements in the submission description and therefore I consider the purpose fulfilled.
+The program fullfills the requirements in the submission description and therefore I consider the purpose fulfilled.
 
  ## UPDATES
 The problems with aligning the `stat.values[counter]` output with `setw()` was caused by not assigning enough space for the output by using `" " ` to get a space in the `j th`.
