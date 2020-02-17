@@ -49,21 +49,27 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
         int sequence = 0;
         startTime = std::chrono::high_resolution_clock::now();
 
+        int justify = 0;
         switch (i) {
 
             case 0: // iterationtypen
                 stat.type = "Iteration";
-
                 for (size_t j = nthNumber, counter = 0; j <= nthNumber; --j, counter++) {
 
 
                     size_t returnValueFibonacciIteration = fibonacciIteration(j);
                     stat.values.push_back(returnValueFibonacciIteration);
+                    //TODO FIX setw()!!
 
                     if (counter % 5 == 0) {
-                        size_t justify = std::to_string(stat.values[counter]).size();
+                        if (std::to_string(stat.values[counter]).size() > justify) {
+                            justify = std::to_string(stat.values[counter]).size();
+                        }
+//                        else if (std::to_string(stat.values[counter]).size() != std::to_string(stat.values[counter - 5]).size()) {
+//                            justify += std::to_string(stat.values[counter]).size();
+//                        }
+                        std::cout << stat.type << std::setw(3) << j << "th " << std::setw(justify) << stat.values[counter] << std::endl;
 
-                        std::cout << stat.type << " " << j << "th " << std::right << std::setw(justify) << stat.values[counter] << std::endl;
                     }
 
                 }
@@ -78,13 +84,15 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
                 for (size_t j = nthNumber, counter = 0; j <= nthNumber; --j, counter++) {
 
 
-                    size_t returnValueFibonacciRecursion = fibonacciRecursion(0);
+                    size_t returnValueFibonacciRecursion = fibonacciRecursion(j);
                     stat.values.push_back(returnValueFibonacciRecursion);
 
                     if (counter % 5 == 0) {
 
-                        std::cout << std::internal << stat.type << " " << j << "th " << std::setw(10) << stat.values[counter] << std::endl;
-
+                        if (std::to_string(stat.values[counter]).size() > justify) {
+                            justify = std::to_string(stat.values[counter]).size();
+                        }
+                        std::cout << stat.type << std::setw(3) << j << "th " << std::setw(justify) << stat.values[counter] << std::endl;
                     }
 
                 }
@@ -97,29 +105,14 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
         }
         stats.push_back(stat);// Initialized in the switch
     }
-    outPutFibonacciValues(stats);
     return stats;
 }
 
-void outPutFibonacciValues(std::vector<Stats> stats) {
-    //TODO Is this needed?
-    for (Stats stat:stats) {
-        size_t value = stat.values.size() - 1;
-        for (int counter = 0, size = stat.values.size(); counter < stat.values.size(); counter += 5, size -= 5) {
-
-            size_t justify = std::to_string(stat.values[value - counter]).size();
-
-            std::cout << std::internal << stat.type << " " << size << "th " << std::setw(justify) << stat.values[counter] << std::endl;
-        }
-
-    }
-}
-
-/* Recursion == calls itself (drilled down) until the number is 1 or 0.
- * The values are then "pushed" and added through the function calls adding either 0 or 1   */
+/* Recursion == calls itself (drilled down) until the number is 1 or 0. The values are then "pushed" and added through the function calls adding either 0 or 1   */
 long_type fibonacciRecursion(size_t nthNumber) { // if nthNumber == 10.
     if (nthNumber <= 1)
         return nthNumber;
+    // the function calls it self to return value1 and value2.
     return fibonacciRecursion(nthNumber - 1)
            + fibonacciRecursion(nthNumber - 2);
 }
