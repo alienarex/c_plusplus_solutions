@@ -71,3 +71,8 @@ The program fullfills the requirements in the submission description and therefo
  ## UPDATES
 The problems with aligning the `stat.values[counter]` output with `setw()` was caused by not assigning enough space for the output by using `" " ` to get a space in the `j th`.
 More detailed comments are added to `fibonacciRecursion(...)` and `fibonacciIteration(...)`
+
+Updates 2 - 2020-02-25
+Modified `printStats(const std::vector<Stats> &stats,size_t userInput);` to get the user provided sequence number. An other alternative could be to iterate through the `vector<Stat> stats` and get the size
+of the `vector<long_type>values` in Stats, but it seemed a bit unnecessary since the userInput value where easily available. However, if I'd modify the same thing in a real-life situation, I'd use the loop alternative to avoid
+conflicts and other problems on other parts of the program.   

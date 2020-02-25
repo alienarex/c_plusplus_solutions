@@ -40,11 +40,9 @@ Stats setStatsTiming(Stats stat, std::chrono::high_resolution_clock::time_point 
 void outPutFibonacciValues(std::vector<Stats> stats);
 
 std::vector<Stats> fibonacciTimer(size_t nthNumber) {
-//TODO Remove redundancy based on given feedback
     std::vector<Stats> stats;
 
     std::chrono::high_resolution_clock::time_point startTime;
-
 
     for (int i = 0; i < 2; ++i) {
         Stats stat;
@@ -61,7 +59,6 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber) {
 
                     size_t returnValueFibonacciIteration = fibonacciIteration(j);
                     stat.values.push_back(returnValueFibonacciIteration);
-                    //TODO FIX setw()!!
 
                     if (counter % 5 == 0) {
                         if (std::to_string(stat.values[counter]).size() > justify) {
@@ -135,7 +132,7 @@ void mainMenu() {
         size_t userInput = subMenu();
 
         std::vector<Stats> stats = fibonacciTimer(userInput);
-        printStats(stats);
+        printStats(stats, userInput);
 
         for (Stats stat:stats) {
             writeToFile(stat);
@@ -159,12 +156,14 @@ size_t subMenu() {
 }
 
 
-void printStats(const std::vector<Stats> &stats) {
-    //TODO .Add this to menu. If nthNumber is 30 this range would be 30 .. 0, with a header looking like:
-    // Duration of running Fibonacci sequences within the range of 30..0.
+void printStats(const std::vector<Stats> &stats, size_t userInput) {
     using namespace std;
-    cout << internal << setw(30) << "Nanosec" << setw(20) << "Microsec" << setw(20) << "Millisec" << setw(20) << "Seconds" << "\n" <<
-         "================================================================================================" << endl;
+    size_t lowestValue = 0;
+    string headText = "Duration of running Fibonacci sequences within the range of " + to_string(userInput) + ".." + to_string(lowestValue);
+    cout << headText << "\n"
+         << "================================================================================================" << endl;
+
+    cout << internal << setw(30) << "Nanosec" << setw(20) << "Microsec" << setw(20) << "Millisec" << setw(20) << "Seconds" << "\n";
     for (Stats stat:stats) {
         string seconds = to_string(stat.sec);
         size_t found = seconds.find_last_not_of('0');

@@ -33,9 +33,10 @@ std::vector<Stats> fibonacciTimer(size_t nthNumber);
 /**
  * Function prints object Stats time properties
  * @param stats, constant vector of object Stats
+ * @param userInput , sequence number provided by the user
  *
  * */
-void printStats(const std::vector<Stats> &stats);
+void printStats(const std::vector<Stats> &stats,size_t userInput);
 
 /**
  * Function decide type on object and writes object Stats time properties to .txt file
